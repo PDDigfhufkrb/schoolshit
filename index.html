@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Курс «Как перестать покупать курсы» — SCHOOLSHIT.RU</title>
+    
+    <!-- Стили ЮKassa -->
+    <link rel="stylesheet" href="https://yookassa.ru/integration/simplepay/css/yookassa_construct_form.css?v=1.33.0">
+    
+    <!-- Шрифты -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a0a0f;
+            color: #fff;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+        
+        /* Фон с изображением */
+        .hero-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.15;
+            background-image: url('https://images.unsplash.com/photo-1529156069898-49953e39b3ac?ixlib=rb-4.0.3&auto=format&fit=crop&w=1932&q=80');
+            background-size: cover;
+            background-position: center;
+            filter: grayscale(100%);
+        }
+        
+        /* Затемнение поверх фона */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 50% 50%, rgba(10,10,15,0.95), rgba(0,0,0,0.98));
+            z-index: 1;
+        }
+        
+        .container {
+            position: relative;
+            z-index: 2;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        /* Провокационный заголовок */
+        .main-title {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: clamp(3rem, 12vw, 7rem);
+            font-weight: 900;
+            line-height: 0.9;
+            text-transform: uppercase;
+            text-align: center;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #ff6b4a, #ff8a6f);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -2px;
+            position: relative;
+        }
+        
+        .main-title::after {
+            content: "SCHOOLSHIT.RU";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #ff6b4a, #ff8a6f);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            opacity: 0.3;
+            transform: translate(5px, 5px);
+            z-index: -1;
+        }
+        
+        .sub-header {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #8b8ba0;
+            margin-bottom: 3rem;
+            border-bottom: 1px solid rgba(255,107,74,0.3);
+            padding-bottom: 1rem;
+            display: inline-block;
+            margin-left: auto;
+            margin-right: auto;
+            width: fit-content;
+        }
+        
+        /* ДВЕ КОЛОНКИ */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: start;
+            margin: 3rem 0;
+        }
+        
+        @media (max-width: 768px) {
+            .grid-2 {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+        
+        /* ЛЕВАЯ КОЛОНКА — ПРОВОКАЦИОННЫЙ ТЕКСТ С ФОТО */
+        .left-content {
+            background: rgba(30,30,46,0.4);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 30px;
+            padding: 2rem;
+        }
+        
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .image-grid img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 15px;
+            border: 2px solid rgba(255,107,74,0.3);
+            transition: transform 0.3s ease;
+        }
+        
+        .image-grid img:hover {
+            transform: scale(1.02);
+            border-color: #ff6b4a;
+        }
+        
+        .provocation-text {
+            margin: 2rem 0;
+        }
+        
+        .provocation-text h3 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            color: #fff;
+        }
+        
+        .provocation-text p {
+            color: #b0b8d4;
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .highlight-quote {
+            background: rgba(255,107,74,0.1);
+            border-left: 4px solid #ff6b4a;
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin: 2rem 0;
+            font-style: italic;
+            color: #ddd;
+        }
+        
+        /* ПРАВАЯ КОЛОНКА — ПЛАТЁЖНАЯ ФОРМА */
+        .payment-card {
+            background: rgba(20,25,40,0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,107,74,0.2);
+            border-radius: 30px;
+            padding: 2rem;
+            box-shadow: 0 30px 50px rgba(0,0,0,0.5);
+            position: sticky;
+            top: 100px;
+        }
+        
+        .price-tag {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .price-old {
+            color: #6f7a9e;
+            text-decoration: line-through;
+            font-size: 1.5rem;
+        }
+        
+        .price-new {
+            font-size: 4rem;
+            font-weight: 900;
+            color: #ff6b4a;
+            line-height: 1;
+            margin: 0.5rem 0;
+        }
+        
+        .price-new small {
+            font-size: 1.2rem;
+            color: #b0b8d4;
+            font-weight: 400;
+        }
+        
+        .features-list {
+            list-style: none;
+            margin: 2rem 0;
+        }
+        
+        .features-list li {
+            margin-bottom: 1rem;
+            color: #b0b8d4;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+        
+        .features-list li::before {
+            content: "🔥";
+            font-size: 1.2rem;
+        }
+        
+        /* ПЛАТЁЖНАЯ ФОРМА (скопирована с твоего сайта) */
+        .yoomoney-payment-form {
+            margin-top: 1rem;
+        }
+        
+        .ym-customer-info {
+            margin-bottom: 1rem;
+        }
+        
+        .ym-block-title {
+            color: #fff;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            opacity: 0.7;
+        }
+        
+        .ym-input {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,107,74,0.3);
+            border-radius: 50px;
+            padding: 1rem 1.5rem;
+            width: 100%;
+            color: #fff;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .ym-input:focus {
+            outline: none;
+            border-color: #ff6b4a;
+            background: rgba(255,255,255,0.1);
+        }
+        
+        .ym-input::placeholder {
+            color: #4a4a5a;
+        }
+        
+        .ym-payment-btn-block {
+            margin-top: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .ym-btn-pay {
+            background: linear-gradient(135deg, #ff6b4a, #ff8a6f);
+            border: none;
+            border-radius: 50px;
+            padding: 1rem 2rem;
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: #0a0a0f;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex: 1;
+            border: 2px solid transparent;
+        }
+        
+        .ym-btn-pay:hover {
+            background: transparent;
+            color: #ff6b4a;
+            border-color: #ff6b4a;
+            transform: translateY(-2px);
+        }
+        
+        .ym-logo {
+            filter: brightness(0.8);
+        }
+        
+        .ym-hidden-inputs {
+            display: none;
+        }
+        
+        .payment-security {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 1.5rem 0;
+            color: #6f7a9e;
+            font-size: 0.9rem;
+        }
+        
+        /* ФУТЕР */
+        .domain-footer {
+            text-align: center;
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,107,74,0.2);
+            color: #6f7a9e;
+            font-size: 0.9rem;
+        }
+        
+        .domain-footer strong {
+            color: #ff6b4a;
+            font-family: monospace;
+            font-size: 1.2rem;
+        }
+        
+        /* МИКРО-АНИМАЦИИ */
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        
+        .glitch {
+            animation: glitch 5s infinite;
+        }
+        
+        @keyframes glitch {
+            0%, 100% { transform: skew(0deg); }
+            95% { transform: skew(5deg); }
+            96% { transform: skew(-5deg); }
+            97% { transform: skew(0deg); }
+        }
+        
+        /* ДЛЯ КАРТИНОК (замени ссылки на свои) */
+        .img-placeholder {
+            background: linear-gradient(45deg, #2a2a3a, #1a1a2a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ff6b4a;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Фон с изображением -->
+    <div class="hero-bg"></div>
+    <div class="overlay"></div>
+    
+    <div class="container">
+        <!-- Шапка -->
+        <h1 class="main-title glitch">SCHOOLSHIT.RU</h1>
+        <div class="sub-header">единственный курс, который запретят через 24 часа</div>
+        
+        <div class="grid-2">
+            <!-- ЛЕВАЯ КОЛОНКА: ПРОВОКАЦИЯ + ФОТО -->
+            <div class="left-content">
+                <div class="image-grid">
+                    <!-- ЗДЕСЬ ТВОИ КАРТИНКИ (замени ссылки) -->
+                    <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=400&h=300&fit=crop" alt="Улыбающиеся люди" class="img-placeholder">
+                    <img src="https://images.unsplash.com/photo-1524502397800-2eeaad7c3fe5?w=400&h=300&fit=crop" alt="Целующаяся пара" class="img-placeholder">
+                    <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=400&h=300&fit=crop" alt="Успешный человек" class="img-placeholder">
+                    <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&h=300&fit=crop" alt="Девушка улыбается" class="img-placeholder">
+                </div>
+                
+                <div class="provocation-text">
+                    <h3>РЕКЛАМА ВЕЗДЕ. ТЫ УЖЕ НЕ ЗАМЕЧАЕШЬ.</h3>
+                    <p>Мы смирились. Стали рабами. Нам говорят: «Купи этот курс — станешь успешным». Мы покупаем. Снова и снова.</p>
+                    
+                    <div class="highlight-quote">
+                        «Я потратил 500 тысяч на курсы, прежде чем понял простую истину...»
+                    </div>
+                    
+                    <p>Смотри на эти лица. Улыбающиеся, успешные, целующиеся. Они — такие же жертвы рекламы, как и ты. Им продали мечту, они купили.</p>
+                    
+                    <p style="font-weight: 700; color: #ff6b4a;">НО ТЫ МОЖЕШЬ ОСТАНОВИТЬСЯ.</p>
+                </div>
+            </div>
+            
+            <!-- ПРАВАЯ КОЛОНКА: ПЛАТЁЖНАЯ ФОРМА -->
+            <div class="payment-card">
+                <div class="price-tag">
+                    <div class="price-old">~~ 5 000 ₽ ~~</div>
+                    <div class="price-new">499 ₽ <small>навсегда</small></div>
+                </div>
+                
+                <ul class="features-list">
+                    <li>Секретный PDF с ответом</li>
+                    <li>Пожизненный доступ</li>
+                    <li>Иммунитет к рекламе</li>
+                </ul>
+                
+                <!-- ПЛАТЁЖНАЯ ФОРМА ЮKASSA (адаптировано с твоего сайта) -->
+                <form target="_blank" class="yoomoney-payment-form" action="https://yookassa.ru/integration/simplepay/payment" method="post" accept-charset="utf-8">
+                    <div class="ym-customer-info">
+                        <div class="ym-block-title">Куда прислать PDF?</div>
+                        <input name="cps_email" class="ym-input" placeholder="Твой e-mail" type="text" value="" required>
+                    </div>
+
+                    <div class="ym-hidden-inputs">
+                        <!-- СТРАНИЦА УСПЕХА С АВТОВЫДАЧЕЙ PDF -->
+                        <input name="shopSuccessURL" type="hidden" value="https://schoolshit.ru/success.html">
+                        <input name="shopFailURL" type="hidden" value="https://schoolshit.ru/fail.html">
+                    </div>
+
+                    <input name="customerNumber" type="hidden" value="Курс_Как_перестать_покупать_курсы">
+                    
+                    <div class="ym-payment-btn-block ym-align-space-between">
+                        <div class="ym-input-icon-rub ym-display-none">
+                            <input name="sum" class="ym-input ym-sum-input" type="number" step="any" value="499" readonly>
+                        </div>
+                        <button data-text="Купить сейчас" class="ym-btn-pay ym-result-price">
+                            <span class="ym-text-crop">Купить сейчас</span> 
+                            <span class="ym-price-output"> 499&nbsp;₽</span>
+                        </button>
+                        <img src="https://yookassa.ru/integration/simplepay/img/iokassa-gray.svg" class="ym-logo" width="114" height="27" alt="ЮKassa">
+                    </div>
+                    
+                    <!-- ТВОИ ДАННЫЕ SHOPID (из твоего кода) -->
+                    <input name="shopId" type="hidden" value="1256818">
+                </form>
+                
+                <div class="payment-security">
+                    <span>🔒 Защита 256 бит</span>
+                    <span>⚡ Мгновенная доставка</span>
+                </div>
+                
+                <p style="color: #6f7a9e; font-size: 0.8rem; text-align: center; margin-top: 1rem;">
+                    *после оплаты PDF придёт на почту автоматически
+                </p>
+            </div>
+        </div>
+        
+        <!-- ФИНАЛЬНЫЙ МЕССЕДЖ -->
+        <div style="text-align: center; margin: 4rem 0 2rem;">
+            <p style="font-size: 1.8rem; font-weight: 800; color: #b0b8d4;">
+                ТЫ ВСЁ ЕЩЁ ЧИТАЕШЬ, А НЕ ПОКУПАЕШЬ?
+            </p>
+        </div>
+        
+        <!-- ФУТЕР -->
+        <div class="domain-footer">
+            <p>Сайт сделан специально для <strong>schoolshit.ru</strong> — потому что мы не стесняемся.</p>
+            <p>© 2026 | Это не курс. Это пощёчина.</p>
+        </div>
+    </div>
+    
+    <script src="https://yookassa.ru/integration/simplepay/js/yookassa_construct_form.js"></script>
+    
+    <script>
+        // Сохраняем email перед оплатой
+        document.addEventListener('DOMContentLoaded', function() {
+            const emailInput = document.querySelector('input[name="cps_email"]');
+            if (emailInput) {
+                // Восстанавливаем email если был
+                const savedEmail = localStorage.getItem('schoolshit_email');
+                if (savedEmail) {
+                    emailInput.value = savedEmail;
+                }
+                
+                // Сохраняем при вводе
+                emailInput.addEventListener('input', function() {
+                    localStorage.setItem('schoolshit_email', this.value);
+                });
+            }
+            
+            // Сохраняем информацию о покупке для страницы успеха
+            localStorage.setItem('pending_purchase', 'kurs_pere_stat');
+        });
+    </script>
+</body>
+</html>
