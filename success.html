@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Спасибо за покупку — SCHOOLSHIT.RU</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a0a0f;
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 600px;
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .success-icon {
+            font-size: 5rem;
+            margin-bottom: 2rem;
+            animation: pulse 2s infinite;
+        }
+        
+        h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ff6b4a, #ff8a6f);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+        
+        .subtitle {
+            color: #b0b8d4;
+            font-size: 1.2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .download-card {
+            background: rgba(30,30,46,0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,107,74,0.2);
+            border-radius: 30px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .download-btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #ff6b4a, #ff8a6f);
+            color: #0a0a0f;
+            text-decoration: none;
+            padding: 1.2rem 3rem;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.3rem;
+            margin: 1.5rem 0;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .download-btn:hover {
+            background: transparent;
+            color: #ff6b4a;
+            border-color: #ff6b4a;
+        }
+        
+        .pdf-info {
+            color: #6f7a9e;
+            font-size: 0.9rem;
+            margin: 1rem 0;
+        }
+        
+        .domain-footer {
+            margin-top: 3rem;
+            color: #6f7a9e;
+            font-size: 0.9rem;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="success-icon">🎉</div>
+        <h1>ТЫ СДЕЛАЛ ЭТО!</h1>
+        <div class="subtitle">Добро пожаловать в клуб тех, кто больше не ведётся</div>
+        
+        <div class="download-card">
+            <p style="margin-bottom: 1rem;">Вот он — твой билет к свободе:</p>
+            
+            <!-- КНОПКА СКАЧИВАНИЯ PDF -->
+            <a href="https://drive.google.com/file/d/1o507GwCzjpmbUd2Futn0KKma27aXHO99/view?usp=drive_link" 
+               class="download-btn" 
+               target="_blank"
+               onclick="trackDownload()">
+                📥 Скачать PDF
+            </a>
+            
+            <div class="pdf-info">
+                <p>Файл откроется в новой вкладке</p>
+                <p style="margin-top: 0.5rem;">Размер: 1 страница чистой правды</p>
+            </div>
+        </div>
+        
+        <div style="background: rgba(255,107,74,0.1); border-radius: 15px; padding: 1.5rem;">
+            <p style="color: #ff8a6f; font-weight: 600;">P.S. Теперь ты знаешь секрет.</p>
+            <p style="color: #b0b8d4; margin-top: 0.5rem;">Расскажи друзьям. Или не рассказывай. Ты свободен в своём выборе.</p>
+        </div>
+        
+        <div class="domain-footer">
+            <p><strong>schoolshit.ru</strong> — мы не обещаем, мы делаем.</p>
+        </div>
+    </div>
+    
+    <script>
+        function trackDownload() {
+            // Отправка статистики (можно добавить Яндекс.Метрику)
+            console.log('PDF downloaded');
+            
+            // Очищаем информацию о pending покупке
+            localStorage.removeItem('pending_purchase');
+        }
+        
+        // При загрузке страницы проверяем, что пришли с оплаты
+        document.addEventListener('DOMContentLoaded', function() {
+            const pending = localStorage.getItem('pending_purchase');
+            if (!pending) {
+                // Если зашли напрямую без оплаты
+                console.log('Прямой переход на страницу успеха');
+            }
+            
+            // Автоматически предлагаем скачать через 2 секунды
+            setTimeout(() => {
+                if (confirm('Открыть PDF сейчас?')) {
+                    window.open('https://drive.google.com/file/d/1o507GwCzjpmbUd2Futn0KKma27aXHO99/view?usp=drive_link', '_blank');
+                }
+            }, 2000);
+        });
+    </script>
+</body>
+</html>
