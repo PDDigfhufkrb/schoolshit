@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Хватит покупать воздух — свобода от маркетинга</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://yookassa.ru/integration/simplepay/css/yookassa_construct_form.css?v=1.33.0">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a0c12;
+            color: #fff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* АНИМИРОВАННЫЙ ГЕОМЕТРИЧЕСКИЙ ФОН */
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://s10.iimage.su/s/25/g6BHcmaxVYptveslV9zzbFZ34I5p9FD4sHu123ncQ.jpg');
+            background-size: 600px auto;
+            background-repeat: repeat;
+            opacity: 0.2;
+            animation: slideBackground 60s linear infinite;
+            z-index: -2;
+            pointer-events: none;
+        }
+        @keyframes slideBackground {
+            0% { background-position: 0 0; }
+            100% { background-position: 600px 0; }
+        }
+
+        /* Тёмный слой поверх фона */
+        body::after {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 50% 50%, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.9) 100%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; position: relative; z-index: 2; }
+        .highlight { color: #ff4b2b; font-weight: 800; }
+
+        /* ШАПКА МИНИМАЛИСТИЧНАЯ */
+        .header {
+            padding: 30px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255,75,43,0.2);
+        }
+        .logo {
+            font-size: 1.5rem; font-weight: 800;
+            background: linear-gradient(135deg, #ff4b2b, #ff416c);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+
+        /* ТЕЛЕВИЗОР */
+        .tv-block {
+            position: relative; margin: 40px 0; border-radius: 20px; overflow: hidden;
+            border: 2px solid #ff4b2b; box-shadow: 0 20px 40px -10px #ff4b2b;
+        }
+        .tv-image { width: 100%; display: block; pointer-events: none; user-select: none; }
+        .tv-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(90deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0.8) 100%);
+            display: flex; align-items: center; justify-content: center; flex-direction: column; text-align: center;
+        }
+        .tv-overlay h2 { font-size: 3.5rem; font-weight: 900; text-transform: uppercase; text-shadow: 0 0 30px #ff4b2b; }
+        .tv-overlay p { font-size: 1.3rem; max-width: 600px; color: rgba(255,255,255,0.8); }
+
+        /* ГЕРОЙ */
+        .hero { text-align: center; padding: 60px 0 40px; }
+        .hero h1 {
+            font-size: 4rem; font-weight: 900; line-height: 1.1; margin-bottom: 30px;
+            text-shadow: 0 0 40px rgba(255,75,43,0.3);
+        }
+        .hero h1 span { color: #ff4b2b; }
+
+        /* ТЕКСТОВЫЙ БЛОК */
+        .pain-text {
+            background: rgba(0,0,0,0.4); backdrop-filter: blur(10px);
+            border-radius: 30px; padding: 50px; margin: 40px 0;
+            border: 1px solid rgba(255,75,43,0.3); font-size: 1.2rem;
+        }
+        .pain-text p { margin-bottom: 20px; }
+
+        /* БЛОК ПРОБЛЕМЫ С ГРОБОМ */
+        .coffin-block {
+            display: flex; align-items: center; gap: 30px;
+            background: rgba(255,75,43,0.1); border: 1px solid #ff4b2b;
+            border-radius: 20px; padding: 30px; margin: 50px 0;
+        }
+        .coffin-icon { width: 100px; filter: drop-shadow(0 0 20px #ff4b2b); pointer-events: none; user-select: none; }
+        .coffin-text { font-size: 1.8rem; font-weight: 800; text-transform: uppercase; }
+        .coffin-text small { display: block; font-size: 1rem; font-weight: 400; color: rgba(255,255,255,0.6); margin-top: 10px; text-transform: none; }
+
+        /* ЦЕННОСТЬ И ЦЕНА */
+        .value {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 60px;
+            margin: 80px 0; align-items: center;
+        }
+        .value-left h3 { font-size: 2.5rem; font-weight: 800; margin-bottom: 30px; }
+        .value-left li {
+            list-style: none; margin-bottom: 20px; display: flex; align-items: flex-start; gap: 15px;
+            font-size: 1.1rem; color: rgba(255,255,255,0.8);
+        }
+        .value-left li i { color: #ff4b2b; font-size: 1.3rem; }
+        .value-right {
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(10px);
+            border: 1px solid #ff4b2b; border-radius: 30px; padding: 50px; text-align: center;
+        }
+        .price-old { color: rgba(255,255,255,0.3); text-decoration: line-through; font-size: 1.5rem; }
+        .price-current {
+            font-size: 5rem; font-weight: 900; line-height: 1; margin: 20px 0;
+            color: #ff4b2b; text-shadow: 0 0 30px #ff4b2b;
+        }
+
+        /* ИСПРАВЛЕННАЯ ФОРМА ЮKASSA */
+        .payment-section {
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(10px);
+            border-radius: 30px; padding: 50px; margin: 60px 0;
+            border: 1px solid rgba(255,75,43,0.3);
+        }
+        .payment-section h2 { font-size: 2.5rem; font-weight: 800; margin-bottom: 30px; text-align: center; }
+        .yoomoney-payment-form { max-width: 500px; margin: 0 auto; }
+        .ym-customer-info {
+            background: rgba(255,255,255,0.03) !important;
+            border: 1px solid rgba(255,75,43,0.3) !important;
+            border-radius: 16px !important; padding: 20px !important;
+            margin-bottom: 20px !important;
+        }
+        .ym-block-title { color: #fff !important; margin-bottom: 15px !important; }
+        .ym-input {
+            background: rgba(0,0,0,0.5) !important;
+            border: 1px solid rgba(255,255,255,0.1) !important;
+            color: #fff !important; border-radius: 12px !important;
+            padding: 15px !important; width: 100% !important;
+        }
+        .ym-payment-btn-block { display: flex !important; flex-direction: column !important; gap: 15px !important; }
+        .ym-btn-pay {
+            background: linear-gradient(135deg, #ff4b2b, #ff416c) !important;
+            border: none !important; border-radius: 60px !important;
+            padding: 20px !important; font-size: 1.3rem !important;
+            font-weight: 800 !important; color: white !important;
+            width: 100% !important; cursor: pointer !important;
+            text-transform: uppercase !important; line-height: 1.2 !important;
+            white-space: normal !important;
+        }
+        .ym-btn-pay:hover { transform: translateY(-3px) !important; box-shadow: 0 20px 30px -10px #ff4b2b !important; }
+        .ym-logo { display: block !important; margin: 0 auto !important; opacity: 0.5 !important; }
+        .ym-sum-input { display: none !important; }
+
+        /* ФИНАЛЬНАЯ СЦЕНА */
+        .final-scene {
+            margin: 80px 0; border-radius: 30px; overflow: hidden;
+            position: relative; border: 3px solid #ff4b2b;
+        }
+        .final-image { width: 100%; display: block; pointer-events: none; user-select: none; }
+        .final-overlay {
+            position: absolute; bottom: 0; left: 0; right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.9));
+            padding: 60px 40px 40px;
+        }
+        .final-overlay h3 { font-size: 2.5rem; font-weight: 800; color: #ff4b2b; }
+        .final-overlay p { font-size: 1.2rem; max-width: 600px; color: rgba(255,255,255,0.8); }
+
+        /* P.S. */
+        .ps {
+            margin: 60px 0; padding: 40px;
+            background: rgba(255,75,43,0.1); border-left: 4px solid #ff4b2b;
+            border-radius: 16px; font-size: 1.2rem; font-style: italic;
+        }
+        .footer { padding: 40px 0; border-top: 1px solid rgba(255,75,43,0.2); text-align: center; color: rgba(255,255,255,0.3); }
+
+        /* АДАПТАЦИЯ */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .tv-overlay h2 { font-size: 2rem; }
+            .tv-overlay p { font-size: 1rem; }
+            .value { grid-template-columns: 1fr; }
+            .coffin-block { flex-direction: column; text-align: center; }
+            .pain-text { padding: 30px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="animated-bg"></div>
+    <div class="container">
+        <div class="header">
+            <div class="logo">ХВАТИТ ПОКУПАТЬ ВОЗДУХ</div>
+        </div>
+
+        <div class="tv-block">
+            <img class="tv-image" src="https://s10.iimage.su/s/25/gp1v1eRxInSs0pXetaCiIXMvqZXDmQcFcJ4ZPodID.jpg" alt="Телевизор" draggable="false">
+            <div class="tv-overlay">
+                <h2>ВЫКЛЮЧИ ЭКРАН</h2>
+                <p>Каждый день они вещают тебе в голову. Ты смотришь и веришь. Пора остановиться.</p>
+            </div>
+        </div>
+
+        <section class="hero">
+            <h1>ТЫ КУПИЛ КУРСОВ НА <span>100 ТЫСЯЧ</span><br>А ЗАРАБОТАЛ <span>0</span></h1>
+        </section>
+
+        <div class="pain-text">
+            <p>Сколько ты уже потратил на курсы, которые обещали научить тебя зарабатывать, быть успешным, счастливым? <span class="highlight">2 тысячи? 50? 300?</span></p>
+            <p>Этот курс — единственный, который действительно <span class="highlight">работает</span>. Потому что после него ты просто перестанешь покупать все остальные курсы.</p>
+            <p>Ты сэкономишь <span class="highlight">сотни тысяч рублей</span>. Ты перестанешь вестись на рекламу. Ты наконец поймёшь, что всё, что тебе нужно — уже есть у тебя внутри.</p>
+            <p style="font-size: 1.5rem; margin-top: 30px;">Так что 5 000 — это не цена курса. Это цена твоей <span class="highlight">свободы от маркетинга</span>.</p>
+        </div>
+
+        <div class="coffin-block">
+            <img class="coffin-icon" src="https://s10.iimage.su/s/25/gD40RMfxy6J9SZl2IHQRzCdXyP9aH9ffq9ytG3OOm.jpg" alt="Гроб" draggable="false">
+            <div class="coffin-text">
+                ИТОГ — 0 РУБЛЕЙ
+                <small>Твои мечты умирают здесь, если ты не остановишься</small>
+            </div>
+        </div>
+
+        <section class="value">
+            <div class="value-left">
+                <h3>ЭТО НЕ КУРС.<br>ЭТО ПРИВИВКА.</h3>
+                <ul>
+                    <li><i class="fas fa-skull"></i> <strong>Диагноз:</strong> Почему ты покупаешь и не делаешь</li>
+                    <li><i class="fas fa-shield-alt"></i> <strong>Прививка:</strong> Как распознать инфоцыгана за 3 минуты</li>
+                    <li><i class="fas fa-pills"></i> <strong>Лекарство:</strong> Что делать вместо покупки</li>
+                    <li><i class="fas fa-rocket"></i> <strong>Жизнь:</strong> Как зарабатывать на том, что уже знаешь</li>
+                </ul>
+            </div>
+            <div class="value-right">
+                <div class="price-old">15 000 ₽</div>
+                <div class="price-current">5 000 ₽</div>
+                <div class="price-desc">цена для первых покупателей</div>
+            </div>
+        </section>
+
+        <section class="payment-section">
+            <h2>ЗАБРАТЬ ПРИВИВКУ</h2>
+            <form target="_blank" class="yoomoney-payment-form" action="https://yookassa.ru/integration/simplepay/payment" method="post">
+                <div class="ym-customer-info">
+                    <div class="ym-block-title">Твой email</div>
+                    <input name="cps_email" class="ym-input" placeholder="куда отправить доступ" type="text" required>
+                </div>
+                <div class="ym-hidden-inputs">
+                    <input name="shopSuccessURL" type="hidden" value="https://schoolshit.ru/success.html">
+                </div>
+                <div class="ym-payment-btn-block">
+                    <div style="display: none;"><input name="sum" type="number" value="5000"></div>
+                    <button class="ym-btn-pay">ЗАБРАТЬ КУРС · 5 000 ₽</button>
+                    <img src="https://yookassa.ru/integration/simplepay/img/iokassa-gray.svg" class="ym-logo" style="opacity: 0.5;">
+                </div>
+                <input name="shopId" type="hidden" value="1256818">
+            </form>
+        </section>
+
+        <div class="final-scene">
+            <img class="final-image" src="https://s10.iimage.su/s/24/g3Dsuenx4nYqv7nzUDSN1RKLfy0fs8iNdGg1Qyl5M.jpg" alt="Свобода" draggable="false">
+            <div class="final-overlay">
+                <h3>ТАК ВЫГЛЯДИТ СВОБОДА</h3>
+                <p>Когда деньги остаются у тебя. Когда ты больше не ведёшься.</p>
+            </div>
+        </div>
+
+        <div class="ps">
+            <i class="fas fa-quote-left" style="color: #ff4b2b; font-size: 2rem; margin-right: 15px;"></i>
+            Купишь этот курс, а потом ещё один — вернём деньги. Потому что мы не справились.<br>
+            <strong>Но ты больше не захочешь покупать.</strong>
+        </div>
+
+        <footer class="footer">© 2026 — ХВАТИТ ПОКУПАТЬ ВОЗДУХ</footer>
+    </div>
+    <script src="https://yookassa.ru/integration/simplepay/js/yookassa_construct_form.js?v=1.33.0"></script>
+    <script>
+        // Плавный скролл для всех якорных ссылок
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
