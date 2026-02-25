@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Школа Жизни – последняя покупка</title>
+    <link rel="stylesheet" href="https://yookassa.ru/integration/simplepay/css/yookassa_construct_form.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; -webkit-user-drag: none; }
+        body {
+            font-family: 'Arial Black', 'Impact', 'Oswald', sans-serif;
+            color: white;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* ТВОЙ ФОН (СТОП-КАДР) */
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: url('https://s10.iimage.su/s/25/gp1v1eRxInSs0pXetaCiIXMvqZXDmQcFcJ4ZPodID.jpg') center/cover fixed;
+            filter: brightness(0.3) blur(2px);
+            z-index: -2;
+        }
+
+        /* ВИДЕО ПОВЕРХ (ТОТ ЖЕ ЧЕЛ, ДВИГАЕТСЯ) */
+        .video-overlay {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: min(90vw, 600px);
+            height: auto;
+            aspect-ratio: 16/9;
+            border: 4px solid #ff6600;
+            border-radius: 30px;
+            box-shadow: 0 0 50px #ff4500;
+            z-index: -1;
+            overflow: hidden;
+            opacity: 0.7;
+        }
+        .video-overlay iframe {
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            border: none;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.4);
+            z-index: -1;
+        }
+
+        .content {
+            position: relative;
+            z-index: 2;
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 30px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* ОГНЕННЫЙ ТЕКСТ */
+        @keyframes burn {
+            0% { text-shadow: 0 0 5px #ff0000, 0 0 15px #ff6600; opacity: 0; transform: scale(0.9); }
+            50% { text-shadow: 0 0 30px #ff6600, 0 0 60px #ff3300; opacity: 1; transform: scale(1.05); }
+            100% { text-shadow: 0 0 10px #ff6600, 0 0 30px #ff4500; opacity: 1; transform: scale(1); }
+        }
+        .burning-title {
+            font-size: clamp(1.8rem, 6vw, 3.5rem);
+            text-align: center;
+            text-transform: uppercase;
+            color: #ffe6b0;
+            animation: burn 4s ease-out forwards;
+            margin: 2rem 0;
+            letter-spacing: 3px;
+            max-width: 900px;
+        }
+
+        /* ЦЕПОЧКА КАРТИНОК */
+        .visual-chain {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin: 30px 0 10px;
+            flex-wrap: wrap;
+        }
+        .chain-item {
+            flex: 0 1 250px;
+            position: relative;
+        }
+        .chain-item img {
+            width: 100%;
+            height: auto;
+            border-radius: 20px;
+            border: 3px solid #ffaa33;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.7);
+            pointer-events: none;
+            display: block;
+        }
+        .arrow {
+            font-size: 3rem;
+            color: #ffaa33;
+            text-shadow: 0 0 20px #ff6600;
+            margin: 0 -10px;
+        }
+        .image-caption {
+            font-size: 1rem;
+            font-family: Arial, sans-serif;
+            margin-top: 10px;
+            color: #ffaa33;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-align: center;
+        }
+
+        /* ТВОЙ ТЕКСТ (МАКСИМАЛЬНО УБЕДИТЕЛЬНЫЙ) */
+        .persuasion {
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(10px);
+            border-left: 6px solid #ff6600;
+            border-radius: 30px;
+            padding: 40px;
+            margin: 40px auto;
+            max-width: 800px;
+            font-family: Arial, sans-serif;
+            font-size: 1.3rem;
+            line-height: 1.7;
+        }
+        .persuasion p { margin-bottom: 20px; }
+        .persuasion .highlight {
+            color: #ffaa33;
+            font-weight: bold;
+            font-size: 1.8rem;
+        }
+        .persuasion .big-text {
+            font-size: 1.5rem;
+            margin-top: 30px;
+            color: #ffaa33;
+            text-align: center;
+        }
+
+        /* ПЛАТЁЖНАЯ ФОРМА (ТВОЯ, РАБОЧАЯ) */
+        .payment-section {
+            background: linear-gradient(145deg, #111, #2a2a2a);
+            border: 4px solid gold;
+            border-radius: 60px;
+            padding: 40px;
+            margin: 40px auto;
+            max-width: 700px;
+            width: 100%;
+        }
+        .price-tag {
+            text-align: center;
+            font-size: 4rem;
+            font-weight: 900;
+            color: gold;
+            text-shadow: 0 0 20px orange;
+            margin-bottom: 30px;
+        }
+        .price-tag small {
+            font-size: 1.5rem;
+            color: #ccc;
+        }
+        .ym-customer-info { margin-bottom: 20px; }
+        .ym-block-title { color: #fff; font-size: 1rem; margin-bottom: 10px; text-align: left; }
+        .ym-input {
+            background: rgba(255,255,255,0.1);
+            border: 2px solid #ff6600;
+            border-radius: 50px;
+            padding: 15px 25px;
+            width: 100%;
+            color: #fff;
+            font-size: 1rem;
+        }
+        .ym-input:focus { outline: none; border-color: #ffaa33; }
+        .ym-payment-btn-block { margin-top: 20px; }
+        .ym-btn-pay {
+            background: linear-gradient(135deg, #ff6600, #ff4500);
+            border: none;
+            border-radius: 50px;
+            padding: 20px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            width: 100%;
+            border-bottom: 6px solid #8b0000;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        .ym-btn-pay:active { transform: translateY(6px); border-bottom-width: 2px; }
+        .ym-logo { margin-top: 20px; filter: brightness(0.8); }
+
+        @media (max-width: 700px) {
+            .arrow { display: none; }
+            .price-tag { font-size: 3rem; }
+            .persuasion { font-size: 1.1rem; padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ФОН (ТВОЙ СТОП-КАДР) -->
+    <div class="background"></div>
+
+    <!-- ВИДЕО ПОВЕРХ (ТОТ ЖЕ ЧЕЛ, ДВИГАЕТСЯ) -->
+    <div class="video-overlay">
+        <iframe 
+            src="//sendvid.com/embed/w2y9r6xs?autoplay=1&loop=1&muted=1&controls=0&rel=0&showinfo=0&playsinline=1" 
+            frameborder="0" allow="autoplay; fullscreen" allowfullscreen>
+        </iframe>
+    </div>
+    <div class="overlay"></div>
+
+    <div class="content">
+        <!-- ОГНЕННЫЙ ЗАГОЛОВОК -->
+        <div class="burning-title">ОН ПРОДАЁТ ТЕБЕ МЕЧТУ. ТЫ ПОКУПАЕШЬ. СНОВА.</div>
+
+        <!-- КАРТИНКИ С ПОДПИСЯМИ -->
+        <div class="visual-chain">
+            <div class="chain-item">
+                <img src="https://s10.iimage.su/s/24/gFfYNJJxMNpE16CVSzs5XdKR8OtRXOlfug7UzgNON.jpg" alt="Ты">
+                <div class="image-caption">ЭТО ТЫ. КАЖДЫЙ ДЕНЬ.</div>
+            </div>
+            <div class="arrow">➡️</div>
+            <div class="chain-item">
+                <img src="https://s10.iimage.su/s/24/gWtdTY1xJj1KKrG9JKbXNMYG66ThVgdWCoK6v5O1n.jpg" alt="Битва">
+                <div class="image-caption">ЭТО ТВОЯ ПОСЛЕДНЯЯ БИТВА.</div>
+            </div>
+            <div class="arrow">➡️</div>
+            <div class="chain-item">
+                <img src="https://s10.iimage.su/s/24/g3Dsuenx4nYqv7nzUDSN1RKLfy0fs8iNdGg1Qyl5M.jpg" alt="Свобода">
+                <div class="image-caption">ОНИ ТОЖЕ КУПИЛИ ЭТОТ КУРС.</div>
+            </div>
+        </div>
+
+        <!-- ТВОЙ УБЕДИТЕЛЬНЫЙ ТЕКСТ -->
+        <div class="persuasion">
+            <p><span class="highlight">5 000 рублей.</span> Звучит как просто цифра.</p>
+            <p>Но задумайся: сколько ты уже потратил на курсы, которые обещали научить тебя зарабатывать, быть успешным, счастливым? <strong>30 тысяч? 50? 300?</strong></p>
+            <p>Этот курс — единственный, который действительно <span class="highlight">работает</span>. Потому что после него ты просто перестанешь покупать все остальные курсы.</p>
+            <p>Ты сэкономишь <strong>сотни тысяч рублей</strong>. Ты перестанешь вестись на рекламу. Ты наконец поймёшь, что всё, что тебе нужно — уже есть у тебя внутри.</p>
+            <div class="big-text">Так что 5 000 — это не цена курса. Это цена твоей свободы от маркетинга.</div>
+        </div>
+
+        <!-- ТВОЯ ПЛАТЁЖНАЯ ФОРМА ЮKASSA -->
+        <div class="payment-section">
+            <div class="price-tag">5 000 ₽ <small>последний платёж</small></div>
+            
+            <form target="_blank" class="yoomoney-payment-form" action="https://yookassa.ru/integration/simplepay/payment" method="post" accept-charset="utf-8">
+                <div class="ym-customer-info">
+                    <div class="ym-block-title">О покупателе</div>
+                    <input name="cps_email" class="ym-input" placeholder="Email" type="text" value="">
+                </div>
+
+                <div class="ym-hidden-inputs">
+                    <input name="shopSuccessURL" type="hidden" value="https://schoolshit.ru/success.html">
+                </div>
+                
+                <div class="ym-payment-btn-block ym-before-line ym-align-space-between">
+                    <div class="ym-input-icon-rub ym-display-none">
+                        <input name="sum" placeholder="0.00" class="ym-input ym-sum-input ym-required-input" type="number" step="any" value="5000">
+                    </div>
+                    <button data-text="Заплатить" class="ym-btn-pay ym-result-price">
+                        <span class="ym-text-crop">Заплатить</span> 
+                        <span class="ym-price-output"> 5&nbsp;000,00&nbsp;₽</span>
+                    </button>
+                    <img src="https://yookassa.ru/integration/simplepay/img/iokassa-gray.svg" class="ym-logo" width="114" height="27" alt="ЮKassa">
+                </div>
+                <input name="shopId" type="hidden" value="1256818">
+            </form>
+        </div>
+    </div>
+
+    <script src="https://yookassa.ru/integration/simplepay/js/yookassa_construct_form.js"></script>
+    <script>
+        // Защита картинок
+        document.addEventListener('contextmenu', e => e.target.tagName === 'IMG' && e.preventDefault());
+        
+        // Сохраняем email
+        document.querySelector('input[name="cps_email"]').addEventListener('input', function() {
+            localStorage.setItem('school_life_email', this.value);
+        });
+        const savedEmail = localStorage.getItem('school_life_email');
+        if(savedEmail) document.querySelector('input[name="cps_email"]').value = savedEmail;
+    </script>
+
+</body>
+</html>
