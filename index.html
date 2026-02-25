@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Хватит покупать воздух — последний курс</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://yookassa.ru/integration/simplepay/css/yookassa_construct_form.css?v=1.33.0">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #030507;
+            color: #fff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        /* ОСНОВНОЙ ФОН — НОЧНАЯ ПУСТЫНЯ */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://s10.iimage.su/s/25/gqLSt1SxkPSisX2g4lUyvcIpLUFvZheOzvCX97dI2.jpg');
+            background-size: cover;
+            background-position: center 30%;
+            background-repeat: no-repeat;
+            filter: blur(12px) brightness(0.15) contrast(1.2);
+            transform: scale(1.1);
+            z-index: -2;
+            pointer-events: none;
+        }
+        
+        body::after {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 50% 50%, rgba(0,0,0,0) 0%, rgba(0,0,0,0.8) 100%);
+            z-index: -1;
+            pointer-events: none;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        /* ШАПКА */
+        .header {
+            padding: 30px 0;
+            border-bottom: 1px solid rgba(255,75,43,0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0,0,0,0.3);
+            backdrop-filter: blur(10px);
+            border-radius: 100px;
+            padding: 15px 30px;
+            margin: 20px 0;
+        }
+        
+        .logo {
+            font-size: 1.4rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, #ff4b2b, #ff416c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .counter {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,75,43,0.3);
+            padding: 10px 20px;
+            border-radius: 60px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        
+        .counter span {
+            color: #ff4b2b;
+            font-weight: 900;
+            font-size: 1.2rem;
+        }
+        
+        /* ГЕРОЙ */
+        .hero {
+            padding: 40px 0 60px;
+            text-align: center;
+        }
+        
+        .badge {
+            background: rgba(255,75,43,0.2);
+            color: #ff4b2b;
+            font-weight: 700;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            padding: 10px 20px;
+            border-radius: 60px;
+            display: inline-block;
+            margin-bottom: 30px;
+            border: 1px solid #ff4b2b;
+            backdrop-filter: blur(5px);
+        }
+        
+        .hero h1 {
+            font-size: 4.5rem;
+            font-weight: 900;
+            line-height: 1.1;
+            letter-spacing: -2px;
+            margin-bottom: 30px;
+            text-shadow: 0 0 40px rgba(255,75,43,0.3);
+        }
+        
+        .hero h1 span {
+            color: #ff4b2b;
+            display: inline-block;
+        }
+        
+        /* ПАЦАН ПЕРЕД ТЕЛИКОМ */
+        .tv-section {
+            position: relative;
+            margin: 40px 0 60px;
+            border-radius: 30px;
+            overflow: hidden;
+            border: 3px solid rgba(255,75,43,0.5);
+            box-shadow: 0 30px 60px -20px #ff4b2b;
+        }
+        
+        .tv-image {
+            width: 100%;
+            height: auto;
+            display: block;
+            pointer-events: none;
+            user-select: none;
+        }
+        
+        .tv-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0.8) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            text-align: center;
+        }
+        
+        .tv-overlay h2 {
+            font-size: 4rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: -2px;
+            margin-bottom: 20px;
+            text-shadow: 0 0 30px #ff4b2b;
+        }
+        
+        .tv-overlay p {
+            font-size: 1.3rem;
+            max-width: 600px;
+            color: rgba(255,255,255,0.8);
+        }
+        
+        /* ПРОВЕРКА (БОЛЬ) */
+        .checklist {
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,75,43,0.2);
+            border-radius: 30px;
+            padding: 50px;
+            margin: 60px 0;
+        }
+        
+        .checklist h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+        
+        .checklist-items {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+        
+        .check-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 1.2rem;
+            padding: 15px;
+            background: rgba(255,255,255,0.02);
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        .check-item i {
+            color: #ff4b2b;
+            font-size: 1.5rem;
+        }
+        
+        /* ГРОБ */
+        .coffin-block {
+            grid-column: span 2;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            background: rgba(255,75,43,0.1);
+            border: 1px solid #ff4b2b;
+            padding: 25px;
+            border-radius: 20px;
+            margin-top: 20px;
+        }
+        
+        .coffin-icon {
+            width: 80px;
+            height: auto;
+            filter: drop-shadow(0 0 20px #ff4b2b);
+            pointer-events: none;
+            user-select: none;
+        }
+        
+        .coffin-text {
+            font-size: 1.5rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .coffin-text small {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 400;
+            color: rgba(255,255,255,0.6);
+            margin-top: 5px;
+        }
+        
+        /* ТВОЙ ТЕКСТ */
+        .money-text {
+            margin: 60px 0;
+            padding: 40px;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(10px);
+            border-left: 4px solid #ff4b2b;
+            border-radius: 16px;
+        }
+        
+        .money-text p {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: rgba(255,255,255,0.9);
+        }
+        
+        .money-text strong {
+            color: #ff4b2b;
+            font-weight: 800;
+        }
+        
+        .highlight {
+            color: #ff4b2b;
+            font-weight: 800;
+            font-size: 1.4rem;
+        }
+        
+        /* ГЭНДАЛЬФ */
+        .gandalf-section {
+            margin: 60px 0;
+            border-radius: 30px;
+            overflow: hidden;
+            position: relative;
+            border: 3px solid #ff4b2b;
+        }
+        
+        .gandalf-image {
+            width: 100%;
+            height: auto;
+            display: block;
+            filter: brightness(0.7) contrast(1.1);
+            pointer-events: none;
+        }
+        
+        .gandalf-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.3) 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 60px;
+        }
+        
+        .gandalf-overlay h3 {
+            font-size: 3rem;
+            font-weight: 900;
+            margin-bottom: 20px;
+            max-width: 600px;
+        }
+        
+        .gandalf-overlay h3 span {
+            color: #ff4b2b;
+        }
+        
+        .gandalf-overlay p {
+            font-size: 1.2rem;
+            max-width: 500px;
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 20px;
+        }
+        
+        /* ЦЕННОСТЬ */
+        .value {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            margin: 100px 0;
+            align-items: center;
+        }
+        
+        .value-left h3 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 30px;
+            line-height: 1.3;
+        }
+        
+        .value-left ul {
+            list-style: none;
+        }
+        
+        .value-left li {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            font-size: 1.1rem;
+            color: rgba(255,255,255,0.8);
+        }
+        
+        .value-left li i {
+            color: #ff4b2b;
+            font-size: 1.3rem;
+            margin-top: 3px;
+        }
+        
+        .value-right {
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid #ff4b2b;
+            border-radius: 30px;
+            padding: 50px;
+            text-align: center;
+        }
+        
+        .price-old {
+            color: rgba(255,255,255,0.3);
+            text-decoration: line-through;
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .price-current {
+            font-size: 5rem;
+            font-weight: 900;
+            line-height: 1;
+            margin-bottom: 10px;
+            color: #ff4b2b;
+            text-shadow: 0 0 30px #ff4b2b;
+        }
+        
+        .price-desc {
+            color: rgba(255,255,255,0.5);
+            margin-bottom: 30px;
+        }
+        
+        /* ФОРМА ОПЛАТЫ — ИСПРАВЛЕНО */
+        .payment-section {
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 40px;
+            margin: 60px 0;
+            border: 1px solid rgba(255,75,43,0.3);
+        }
+        
+        .payment-section h2 {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .yoomoney-payment-form {
+            max-width: 100%;
+            margin: 0 auto;
+        }
+        
+        /* Переопределение стилей ЮKassa */
+        .ym-payment-btn-block {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 15px !important;
+            background: transparent !important;
+            padding: 0 !important;
+            margin-top: 20px !important;
+        }
+        
+        .ym-customer-info {
+            background: rgba(255,255,255,0.05) !important;
+            border: 1px solid rgba(255,75,43,0.3) !important;
+            border-radius: 16px !important;
+            padding: 25px !important;
+            margin-bottom: 0 !important;
+        }
+        
+        .ym-block-title {
+            color: #fff !important;
+            font-size: 1rem !important;
+            margin-bottom: 15px !important;
+            font-weight: 600 !important;
+        }
+        
+        .ym-input {
+            background: rgba(0,0,0,0.5) !important;
+            border: 1px solid rgba(255,75,43,0.3) !important;
+            color: #fff !important;
+            border-radius: 12px !important;
+            padding: 15px 20px !important;
+            font-size: 1rem !important;
+            width: 100% !important;
+        }
+        
+        .ym-input:focus {
+            border-color: #ff4b2b !important;
+            outline: none !important;
+        }
+        
+        .ym-btn-pay {
+            background: linear-gradient(135deg, #ff4b2b, #ff416c) !important;
+            border: none !important;
+            border-radius: 60px !important;
+            padding: 20px 30px !important;
+            font-size: 1.3rem !important;
+            font-weight: 800 !important;
+            color: #fff !important;
+            width: 100% !important;
+            text-transform: uppercase !important;
+            letter-spacing: 1px !important;
+            cursor: pointer !important;
+            transition: all 0.3s ease !important;
+        }
+        
+        .ym-btn-pay:hover {
+            transform: translateY(-3px) !important;
+            box-shadow: 0 20px 30px -10px rgba(255,75,43,0.5) !important;
+        }
+        
+        .ym-logo {
+            display: block !important;
+            margin: 15px auto 0 !important;
+            opacity: 0.5 !important;
+        }
+        
+        .ym-display-none {
+            display: none !important;
+        }
+        
+        /* ФИНАЛЬНАЯ СЦЕНА */
+        .final-scene {
+            margin: 80px 0;
+            border-radius: 30px;
+            overflow: hidden;
+            position: relative;
+            border: 3px solid #ff4b2b;
+        }
+        
+        .final-image {
+            width: 100%;
+            height: auto;
+            display: block;
+            filter: brightness(0.9) contrast(1.1);
+            pointer-events: none;
+        }
+        
+        .final-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.9));
+            padding: 60px 40px 40px;
+        }
+        
+        .final-overlay h3 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            color: #ff4b2b;
+        }
+        
+        .final-overlay p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            color: rgba(255,255,255,0.8);
+        }
+        
+        /* P.S. */
+        .ps {
+            margin: 60px 0;
+            padding: 40px;
+            background: rgba(255,75,43,0.1);
+            border-left: 4px solid #ff4b2b;
+            border-radius: 16px;
+            font-size: 1.2rem;
+            font-style: italic;
+            backdrop-filter: blur(10px);
+        }
+        
+        .footer {
+            padding: 40px 0;
+            border-top: 1px solid rgba(255,75,43,0.2);
+            text-align: center;
+            color: rgba(255,255,255,0.3);
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.8rem; }
+            .tv-overlay h2 { font-size: 2.5rem; }
+            .tv-overlay { padding: 20px; }
+            .tv-overlay p { font-size: 1rem; }
+            .checklist-items { grid-template-columns: 1fr; }
+            .value { grid-template-columns: 1fr; }
+            .coffin-block { flex-direction: column; text-align: center; }
+            .gandalf-overlay { padding: 30px; }
+            .gandalf-overlay h3 { font-size: 2rem; }
+            .gandalf-overlay p { font-size: 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- ШАПКА -->
+        <div class="header">
+            <div class="logo">ХВАТИТ ПОКУПАТЬ ВОЗДУХ</div>
+            <div class="counter">
+                <i class="far fa-clock"></i> 
+                <span>37</span> мест по 5000₽
+            </div>
+        </div>
+
+        <!-- ГЕРОЙ -->
+        <section class="hero">
+            <div class="badge">⚡️ ПОСЛЕДНИЙ КУРС В ТВОЕЙ ЖИЗНИ ⚡️</div>
+            <h1>ТЫ КУПИЛ КУРСОВ НА <span>100 ТЫСЯЧ</span><br>А ЗАРАБОТАЛ <span>0</span></h1>
+        </section>
+
+        <!-- ПАЦАН ПЕРЕД ТЕЛИКОМ -->
+        <div class="tv-section">
+            <img class="tv-image" src="https://s10.iimage.su/s/24/gFfYNJJxMNpE16CVSzs5XdKR8OtRXOlfug7UzgNON.jpg" alt="Пацан перед теликом" draggable="false">
+            <div class="tv-overlay">
+                <h2>ТЫ СЕЙЧАС</h2>
+                <p>Заворожённо смотришь в экран и веришь каждому слову</p>
+            </div>
+        </div>
+
+        <!-- ПРОВЕРКА + ГРОБ -->
+        <section class="checklist">
+            <h2>УЗНАЁШЬ СЕБЯ?</h2>
+            <div class="checklist-items">
+                <div class="check-item"><i class="fas fa-check-circle"></i> 50 сохранёнок «почитать потом»</div>
+                <div class="check-item"><i class="fas fa-check-circle"></i> Марафон желаний не сработал</div>
+                <div class="check-item"><i class="fas fa-check-circle"></i> Знаешь 10 способов, 0 на счету</div>
+                <div class="check-item"><i class="fas fa-check-circle"></i> Покупки в 2 ночи под «last call»</div>
+                <div class="check-item"><i class="fas fa-check-circle"></i> 3 недосмотренных курса</div>
+                <div class="check-item"><i class="fas fa-check-circle"></i> Сохраняешь, но не открываешь</div>
+                
+                <!-- ГРОБ -->
+                <div class="coffin-block">
+                    <img class="coffin-icon" src="https://s10.iimage.su/s/25/gD40RMfxy6J9SZl2IHQRzCdXyP9aH9ffq9ytG3OOm.jpg" alt="Гроб" draggable="false">
+                    <div class="coffin-text">
+                        ИТОГ — 0 РУБЛЕЙ
+                        <small>Твои мечты умирают здесь, если ты не остановишься</small>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ТВОЙ ТЕКСТ -->
+        <div class="money-text">
+            <p>Сколько ты уже потратил на курсы, которые обещали научить тебя зарабатывать, быть успешным, счастливым? <strong>2 тысячи? 50? 300?</strong></p>
+            <p>Этот курс — единственный, который действительно <span class="highlight">работает</span>. Потому что после него ты просто перестанешь покупать все остальные курсы.</p>
+            <p>Ты сэкономишь <strong>сотни тысяч рублей</strong>. Ты перестанешь вестись на рекламу. Ты наконец поймёшь, что всё, что тебе нужно — уже есть у тебя внутри.</p>
+            <p style="font-size: 1.5rem; margin-top: 30px;">Так что 5 000 — это не цена курса. Это цена твоей свободы от маркетинга.</p>
+        </div>
+
+        <!-- ГЭНДАЛЬФ -->
+        <div class="gandalf-section">
+            <img class="gandalf-image" src="https://s10.iimage.su/s/24/gWtdTY1xJj1KKrG9JKbXNMYG66ThVgdWCoK6v5O1n.jpg" alt="Гэндальф" draggable="false">
+            <div class="gandalf-overlay">
+                <h3>ТЫ <span>ПРОТИВ</span> РЕКЛАМЫ</h3>
+                <p>Инфоцыганы атакуют тебя каждый день. Ты сражаешься в одиночку.</p>
+                <p><strong>Этот курс — твой меч.</strong> После него ты будешь видеть развод за километр.</p>
+            </div>
+        </div>
+
+        <!-- ЦЕННОСТЬ + ЦЕНА -->
+        <section class="value">
+            <div class="value-left">
+                <h3>ЭТО НЕ КУРС.<br>ЭТО ПРИВИВКА.</h3>
+                <ul>
+                    <li><i class="fas fa-skull"></i> <strong>Диагноз:</strong> Почему ты покупаешь и не делаешь</li>
+                    <li><i class="fas fa-shield-alt"></i> <strong>Прививка:</strong> Как распознать инфоцыгана за 3 минуты</li>
+                    <li><i class="fas fa-pills"></i> <strong>Лекарство:</strong> Что делать вместо покупки</li>
+                    <li><i class="fas fa-rocket"></i> <strong>Жизнь:</strong> Как зарабатывать на том, что уже знаешь</li>
+                </ul>
+            </div>
+            <div class="value-right">
+                <div class="price-old">15 000 ₽</div>
+                <div class="price-current">5 000 ₽</div>
+                <div class="price-desc">цена для первых 100 человек</div>
+                <div style="background: rgba(255,75,43,0.2); border-radius: 60px; padding: 15px;">
+                    ⏳ Осталось <span style="color: #ff4b2b;">37</span> мест
+                </div>
+            </div>
+        </section>
+
+        <!-- ОПЛАТА — ИСПРАВЛЕНО -->
+        <section class="payment-section">
+            <h2>ЗАБРАТЬ ПРИВИВКУ</h2>
+            <form target="_blank" class="yoomoney-payment-form" action="https://yookassa.ru/integration/simplepay/payment" method="post">
+                <div class="ym-customer-info">
+                    <div class="ym-block-title">Куда отправить доступ?</div>
+                    <input name="cps_email" class="ym-input" placeholder="Твой email" type="text" required>
+                </div>
+                <div class="ym-hidden-inputs">
+                    <input name="shopSuccessURL" type="hidden" value="https://schoolshit.ru/success.html">
+                </div>
+                <div class="ym-payment-btn-block">
+                    <div class="ym-input-icon-rub ym-display-none">
+                        <input name="sum" type="number" value="5000">
+                    </div>
+                    <button class="ym-btn-pay">
+                        ЗАБРАТЬ КУРС · 5 000 ₽
+                    </button>
+                    <img src="https://yookassa.ru/integration/simplepay/img/iokassa-gray.svg" class="ym-logo" width="114" height="27" alt="ЮKassa">
+                </div>
+                <input name="shopId" type="hidden" value="1256818">
+            </form>
+        </section>
+
+        <!-- ФИНАЛЬНАЯ СЦЕНА (СЧАСТЛИВАЯ ПАРА) -->
+        <div class="final-scene">
+            <img class="final-image" src="https://s10.iimage.su/s/24/g3Dsuenx4nYqv7nzUDSN1RKLfy0fs8iNdGg1Qyl5M.jpg" alt="Свобода" draggable="false">
+            <div class="final-overlay">
+                <h3>ТАК ВЫГЛЯДИТ СВОБОДА</h3>
+                <p>Когда деньги остаются у тебя. Когда ты больше не ведёшься.</p>
+            </div>
+        </div>
+
+        <!-- P.S. -->
+        <div class="ps">
+            <i class="fas fa-quote-left" style="color: #ff4b2b; font-size: 2rem; margin-right: 15px;"></i>
+            Если ты купишь этот курс, а потом купишь ещё один — мы вернём деньги. Потому что значит, мы не справились.<br>
+            <strong>Но ты больше не захочешь покупать.</strong>
+        </div>
+
+        <footer class="footer">
+            © 2026 — ХВАТИТ ПОКУПАТЬ ВОЗДУХ
+        </footer>
+    </div>
+
+    <script src="https://yookassa.ru/integration/simplepay/js/yookassa_construct_form.js?v=1.33.0"></script>
+</body>
+</html>
