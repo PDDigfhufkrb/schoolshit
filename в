@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Хватит покупать воздух — последний курс</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://yookassa.ru/integration/simplepay/css/yookassa_construct_form.css?v=1.33.0">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #030507;
+            color: #fff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        /* ОСНОВНОЙ ФОН — НОЧНАЯ ПУСТЫНЯ (интегрирована как фон, без плашек) */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://s10.iimage.su/s/25/gqLSt1SxkPSisX2g4lUyvcIpLUFvZheOzvCX97dI2.jpg');
+            background-size: cover;
+            background-position: center 30%;
+            background-repeat: no-repeat;
+            filter: blur(12px) brightness(0.15) contrast(1.2);
+            transform: scale(1.1);
+            z-index: -2;
+            pointer-events: none;
+        }
+        
+        /* Дополнительный слой тьмы */
+        body::after {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 50% 50%, rgba(0,0,0,0) 0%, rgba(0,0,0,0.8) 100%);
+            z-index: -1;
+            pointer-events: none;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        /* ШАПКА */
+        .header {
+            padding: 30px 0;
+            border-bottom: 1px solid rgba(255,75,43,0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0,0,0,0.3);
+            backdrop-filter: blur(10px);
+            border-radius: 100px;
+            padding: 15px 30px;
+            margin: 20px 0;
+        }
+        
+        .logo {
+            font-size: 1.4rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, #ff4b2b, #ff416c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .counter {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,75,43,0.3);
+            padding: 10px 20px;
+            border-radius: 60px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        
+        .counter span {
+            color: #ff4b2b;
+            font-weight: 900;
+            font-size: 1.2rem;
+        }
+        
+        /* СЕКЦИЯ С ТЕЛЕВИЗОРОМ */
+        .tv-block {
+            position: relative;
+            margin: 40px 0 60px;
+            border-radius: 30px;
+            overflow: hidden;
+            border: 3px solid rgba(255,75,43,0.5);
+            box-shadow: 0 30px 60px -20px #ff4b2b;
+        }
+        
+        .tv-image {
+            width: 100%;
+            height: auto;
+            display: block;
+            pointer-events: none;
+            user-select: none;
+        }
+        
+        .tv-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0.8) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .tv-overlay h2 {
+            font-size: 4rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: -2px;
+            margin-bottom: 20px;
+            text-shadow: 0 0 30px #ff4b2b;
+        }
+        
+        .tv-overlay p {
+            font-size: 1.3rem;
+            max-width: 600px;
+            color: rgba(255,255,255,0.8);
+        }
+        
+        /* ГЕРОЙ */
+        .hero {
+            padding: 40px 0 60px;
+            text-align: center;
+        }
+        
+        .badge {
+            background: rgba(255,75,43,0.2);
+            color: #ff4b2b;
+            font-weight: 700;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            padding: 10px 20px;
+            border-radius: 60px;
+            display: inline-block;
+            margin-bottom: 30px;
+            border: 1px solid #ff4b2b;
+            backdrop-filter: blur(5px);
+        }
+        
+        .hero h1 {
+            font-size: 4.5rem;
+            font-weight: 900;
+            line-height: 1.1;
+            letter-spacing: -2px;
+            margin-bottom: 30px;
+            text-shadow: 0 0 40px rgba(255,75,43,0.3);
+        }
+        
+        .hero h1 span {
+            color: #ff4b2b;
+            display: inline-block;
+        }
+        
+        .hero p {
+            font-size: 1.3rem;
+            color: rgba(255,255,255,0.7);
+            max-width: 700px;
+            margin: 0 auto 40px;
+        }
+        
+        /* ПРОВЕРКА С ГРОБОМ */
+        .checklist {
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,75,43,0.2);
+            border-radius: 30px;
+            padding: 50px;
+            margin: 60px 0;
+        }
+        
+        .checklist h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+        
+        .checklist-items {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+        
+        .check-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 1.2rem;
+            padding: 15px;
+            background: rgba(255,255,255,0.02);
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        .check-item i {
+            color: #ff4b2b;
+            font-size: 1.5rem;
+        }
+        
+        /* СПЕЦИАЛЬНЫЙ БЛОК С ГРОБОМ */
+        .coffin-block {
+            grid-column: span 2;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            background: rgba(255,75,43,0.1);
+            border: 1px solid #ff4b2b;
+            padding: 25px;
+            border-radius: 20px;
+            margin-top: 20px;
+        }
+        
+        .coffin-icon {
+            width: 80px;
+            height: auto;
+            filter: drop-shadow(0 0 20px #ff4b2b);
+            pointer-events: none;
+            user-select: none;
+        }
+        
+        .coffin-text {
+            font-size: 1.5rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .coffin-text small {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 400;
+            color: rgba(255,255,255,0.6);
+            margin-top: 5px;
+        }
+        
+        /* ЦЕННОСТЬ */
+        .value {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            margin: 100px 0;
+            align-items: center;
+        }
+        
+        .value-left h3 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 30px;
+            line-height: 1.3;
+        }
+        
+        .value-left ul {
+            list-style: none;
+        }
+        
+        .value-left li {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            font-size: 1.1rem;
+            color: rgba(255,255,255,0.8);
+        }
+        
+        .value-left li i {
+            color: #ff4b2b;
+            font-size: 1.3rem;
+            margin-top: 3px;
+        }
+        
+        .value-right {
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid #ff4b2b;
+            border-radius: 30px;
+            padding: 50px;
+            text-align: center;
+        }
+        
+        .price-old {
+            color: rgba(255,255,255,0.3);
+            text-decoration: line-through;
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .price-current {
+            font-size: 5rem;
+            font-weight: 900;
+            line-height: 1;
+            margin-bottom: 10px;
+            color: #ff4b2b;
+            text-shadow: 0 0 30px #ff4b2b;
+        }
+        
+        .price-desc {
+            color: rgba(255,255,255,0.5);
+            margin-bottom: 30px;
+        }
+        
+        /* ФОРМА ОПЛАТЫ */
+        .payment-section {
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 50px;
+            margin: 60px 0;
+            border: 1px solid rgba(255,75,43,0.3);
+        }
+        
+        .payment-section h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        
+        .yoomoney-payment-form {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        .ym-customer-info {
+            background: rgba(255,255,255,0.03) !important;
+            border: 1px solid rgba(255,75,43,0.3) !important;
+            border-radius: 16px !important;
+            padding: 20px !important;
+        }
+        
+        .ym-block-title {
+            color: #fff !important;
+        }
+        
+        .ym-input {
+            background: rgba(0,0,0,0.5) !important;
+            border: 1px solid rgba(255,255,255,0.1) !important;
+            color: #fff !important;
+            border-radius: 12px !important;
+        }
+        
+        .ym-btn-pay {
+            background: linear-gradient(135deg, #ff4b2b, #ff416c) !important;
+            border: none !important;
+            border-radius: 60px !important;
+            padding: 20px !important;
+            font-size: 1.3rem !important;
+            font-weight: 800 !important;
+            text-transform: uppercase !important;
+        }
+        
+        /* ФИНАЛЬНАЯ СЦЕНА */
+        .final-scene {
+            margin: 80px 0;
+            border-radius: 30px;
+            overflow: hidden;
+            position: relative;
+            border: 3px solid #ff4b2b;
+        }
+        
+        .final-image {
+            width: 100%;
+            height: auto;
+            display: block;
+            filter: brightness(0.9) contrast(1.1);
+            pointer-events: none;
+            user-select: none;
+        }
+        
+        .final-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.9));
+            padding: 60px 40px 40px;
+        }
+        
+        .final-overlay h3 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            color: #ff4b2b;
+        }
+        
+        .final-overlay p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            color: rgba(255,255,255,0.8);
+        }
+        
+        /* P.S. */
+        .ps {
+            margin: 60px 0;
+            padding: 40px;
+            background: rgba(255,75,43,0.1);
+            border-left: 4px solid #ff4b2b;
+            border-radius: 16px;
+            font-size: 1.2rem;
+            font-style: italic;
+            backdrop-filter: blur(10px);
+        }
+        
+        .footer {
+            padding: 40px 0;
+            border-top: 1px solid rgba(255,75,43,0.2);
+            text-align: center;
+            color: rgba(255,255,255,0.3);
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.8rem; }
+            .tv-overlay h2 { font-size: 2.5rem; }
+            .checklist-items { grid-template-columns: 1fr; }
+            .value { grid-template-columns: 1fr; }
+            .coffin-block { flex-direction: column; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- ШАПКА -->
+        <div class="header">
+            <div class="logo">ХВАТИТ ПОКУПАТЬ ВОЗДУХ</div>
+            <div class="counter">
+                <i class="far fa-clock"></i> 
+                <span>37</span> мест по 5000₽
+            </div>
+        </div>
+
+        <!-- ТЕЛЕВИЗОР (ИНТЕГРИРОВАН) -->
+        <div class="tv-block">
+            <img class="tv-image" src="https://s10.iimage.su/s/25/gp1v1eRxInSs0pXetaCiIXMvqZXDmQcFcJ4ZPodID.jpg" alt="Телевизор" draggable="false">
+            <div class="tv-overlay">
+                <h2>ВЫКЛЮЧИ ЭКРАН</h2>
+                <p>Каждый день они вещают тебе в голову. Ты смотришь и веришь. Пора остановиться.</p>
+            </div>
+        </div>
+
+        <!-- ГЕРОЙ -->
+        <section class="hero">
+            <div class="badge">⚡️ ПОСЛЕДНИЙ КУРС В ТВОЕЙ ЖИЗНИ ⚡️</div>
+            <h1>ТЫ КУПИЛ КУРСОВ НА <span>100 ТЫСЯЧ</span><br>А ЗАРАБОТАЛ <span>0</span></h1>
+            <p>Этот курс — прививка от инфоцыган. Один час — и ты свободен.</p>
+        </section>
+
+        <!-- ПРОВЕРКА + ГРОБ -->
+        <section class="checklist">
+            <h2>УЗНАЁШЬ СЕБЯ?</h2>
+            <div class="checklist-items">
+                <div class="check-item"><i class="fas fa-check-circle"></i> 50 сохранёнок «почитать потом»</div>
+                <div class="check-item"><i class="fas fa-check-circle"></i> Марафон желаний не сработал</div>
+                <div class="check-item"><i class="fas fa-check-circle"></i> Знаешь 10 способов, 0 на счету</div>
+                <div class="check-item"><i class="fas fa-check-circle"></i> Покупки в 2 ночи под «last call»</div>
+                <div class="check-item"><i class="fas fa-check-circle"></i> 3 недосмотренных курса</div>
+                <div class="check-item"><i class="fas fa-check-circle"></i> Сохраняешь, но не открываешь</div>
+                
+                <!-- ГРОБ (ИНТЕГРИРОВАН) -->
+                <div class="coffin-block">
+                    <img class="coffin-icon" src="https://s10.iimage.su/s/25/gD40RMfxy6J9SZl2IHQRzCdXyP9aH9ffq9ytG3OOm.jpg" alt="Гроб" draggable="false">
+                    <div class="coffin-text">
+                        ИТОГ — 0 РУБЛЕЙ
+                        <small>Твои мечты умирают здесь, если ты не остановишься</small>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ЦЕННОСТЬ -->
+        <section class="value">
+            <div class="value-left">
+                <h3>ЭТО НЕ КУРС.<br>ЭТО ПРИВИВКА.</h3>
+                <ul>
+                    <li><i class="fas fa-skull"></i> <strong>Диагноз:</strong> Почему ты покупаешь и не делаешь</li>
+                    <li><i class="fas fa-shield-alt"></i> <strong>Прививка:</strong> Как распознать инфоцыгана за 3 минуты</li>
+                    <li><i class="fas fa-pills"></i> <strong>Лекарство:</strong> Что делать вместо покупки</li>
+                    <li><i class="fas fa-rocket"></i> <strong>Жизнь:</strong> Как зарабатывать на том, что уже знаешь</li>
+                </ul>
+            </div>
+            <div class="value-right">
+                <div class="price-old">15 000 ₽</div>
+                <div class="price-current">5 000 ₽</div>
+                <div class="price-desc">цена для первых 100 человек</div>
+                <div style="background: rgba(255,75,43,0.2); border-radius: 60px; padding: 15px;">
+                    ⏳ Осталось <span style="color: #ff4b2b;">37</span> мест
+                </div>
+            </div>
+        </section>
+
+        <!-- ОПЛАТА -->
+        <section class="payment-section">
+            <h2>ЗАБРАТЬ ПРИВИВКУ</h2>
+            <form target="_blank" class="yoomoney-payment-form" action="https://yookassa.ru/integration/simplepay/payment" method="post">
+                <div class="ym-customer-info">
+                    <div class="ym-block-title">Твой email</div>
+                    <input name="cps_email" class="ym-input" placeholder="куда отправить доступ" type="text" required>
+                </div>
+                <div class="ym-hidden-inputs">
+                    <input name="shopSuccessURL" type="hidden" value="https://schoolshit.ru/success.html">
+                </div>
+                <div class="ym-payment-btn-block">
+                    <div class="ym-input-icon-rub ym-display-none">
+                        <input name="sum" type="number" value="5000">
+                    </div>
+                    <button class="ym-btn-pay">
+                        ЗАБРАТЬ КУРС · 5 000 ₽
+                    </button>
+                    <img src="https://yookassa.ru/integration/simplepay/img/iokassa-gray.svg" class="ym-logo" style="opacity: 0.5;">
+                </div>
+                <input name="shopId" type="hidden" value="1256818">
+            </form>
+        </section>
+
+        <!-- ФИНАЛЬНАЯ СЦЕНА (СЧАСТЛИВАЯ ПАРА) -->
+        <div class="final-scene">
+            <img class="final-image" src="https://s10.iimage.su/s/24/g3Dsuenx4nYqv7nzUDSN1RKLfy0fs8iNdGg1Qyl5M.jpg" alt="Свобода" draggable="false">
+            <div class="final-overlay">
+                <h3>ТАК ВЫГЛЯДИТ СВОБОДА</h3>
+                <p>Когда деньги остаются у тебя. Когда ты больше не ведёшься.</p>
+            </div>
+        </div>
+
+        <!-- P.S. -->
+        <div class="ps">
+            <i class="fas fa-quote-left" style="color: #ff4b2b; font-size: 2rem; margin-right: 15px;"></i>
+            Купишь этот курс, а потом ещё один — вернём деньги. Потому что мы не справились.<br>
+            <strong>Но ты больше не захочешь покупать.</strong>
+        </div>
+
+        <footer class="footer">
+            © 2026 — ХВАТИТ ПОКУПАТЬ ВОЗДУХ
+        </footer>
+    </div>
+
+    <script src="https://yookassa.ru/integration/simplepay/js/yookassa_construct_form.js?v=1.33.0"></script>
+</body>
+</html>
