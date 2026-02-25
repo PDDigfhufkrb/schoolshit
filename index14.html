@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iron Man Landing</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: #0a0f1e;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        .stage {
+            width: 1200px;
+            height: 700px;
+            position: relative;
+            overflow: hidden;
+            border-radius: 30px;
+            background: linear-gradient(135deg, #1a2639 0%, #0a0f1e 100%);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.8);
+        }
+        
+        /* СВЕТ ОТ РЕПУЛЬСОРОВ */
+        .light-effect {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 40%;
+            background: radial-gradient(ellipse at 50% 100%, rgba(0, 180, 255, 0.3), transparent 70%);
+            animation: lightPulse 2s ease-in-out;
+            pointer-events: none;
+        }
+        
+        @keyframes lightPulse {
+            0% { opacity: 0; transform: scaleY(0); }
+            20% { opacity: 1; transform: scaleY(1.2); }
+            50% { opacity: 0.5; transform: scaleY(1); }
+            100% { opacity: 0; transform: scaleY(0.5); }
+        }
+        
+        /* ПЫЛЬ/ДЫМ ОТ ПРИЗЕМЛЕНИЯ */
+        .smoke {
+            position: absolute;
+            bottom: 0;
+            left: 25%;
+            width: 50%;
+            height: 150px;
+            background: radial-gradient(ellipse at 50% 100%, 
+                rgba(100, 150, 255, 0.4),
+                rgba(150, 200, 255, 0.2),
+                transparent 80%);
+            filter: blur(20px);
+            animation: smokeRise 1.5s ease-out forwards;
+            pointer-events: none;
+        }
+        
+        @keyframes smokeRise {
+            0% { opacity: 0; transform: scaleY(0); }
+            30% { opacity: 0.8; transform: scaleY(1.5); }
+            70% { opacity: 0.4; transform: scaleY(2); }
+            100% { opacity: 0; transform: scaleY(3); }
+        }
+        
+        /* ЖЕЛЕЗНЫЙ ЧЕЛОВЕК — ОСНОВНОЙ КОНТУР */
+        .ironman {
+            position: absolute;
+            bottom: 10%;
+            left: 30%;
+            width: 180px;
+            height: 350px;
+            transform: translateY(150px);
+            animation: ironLand 1s cubic-bezier(0.2, 0.8, 0.3, 1.2) forwards;
+            z-index: 20;
+            filter: drop-shadow(0 0 30px rgba(0, 160, 255, 0.7));
+        }
+        
+        @keyframes ironLand {
+            0% { transform: translateY(200px) scale(0.7); opacity: 0; }
+            40% { transform: translateY(-30px) scale(1.1); opacity: 1; }
+            70% { transform: translateY(0) scale(1); opacity: 1; }
+            100% { transform: translateY(0) scale(1); opacity: 1; }
+        }
+        
+        /* ТЕЛО (КИРАСА) */
+        .armor-body {
+            position: relative;
+            width: 140px;
+            height: 250px;
+            background: linear-gradient(135deg, #c41e1e, #8b0000);
+            border-radius: 70px 70px 40px 40px;
+            box-shadow: 
+                inset 0 -20px 20px rgba(0,0,0,0.6),
+                inset 0 20px 30px rgba(255,215,0,0.3),
+                0 10px 30px rgba(255,50,50,0.3);
+            border: 3px solid #ffd700;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* ЗОЛОТЫЕ ВСТАВКИ */
+        .gold-accent {
+            position: absolute;
+            width: 100%;
+            height: 40px;
+            background: linear-gradient(90deg, #ffd700, #b8860b);
+            top: 80px;
+            opacity: 0.8;
+            transform: skewY(-5deg);
+        }
+        
+        /* ГОЛОВА (МАСКА) */
+        .iron-head {
+            position: absolute;
+            top: -60px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90px;
+            height: 90px;
+            background: linear-gradient(135deg, #c41e1e, #8b0000);
+            border-radius: 50% 50% 40% 40%;
+            border: 3px solid #ffd700;
+            box-shadow: inset 0 -5px 10px rgba(0,0,0,0.5);
+        }
+        
+        /* ГЛАЗА (СВЕТЯТСЯ) */
+        .eyes {
+            position: absolute;
+            top: 25px;
+            left: 15px;
+            width: 60px;
+            height: 25px;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .eye {
+            width: 20px;
+            height: 20px;
+            background: #00ffff;
+            border-radius: 50%;
+            box-shadow: 0 0 20px #00ffff;
+            animation: eyeGlow 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes eyeGlow {
+            0%, 100% { opacity: 0.9; box-shadow: 0 0 30px cyan; }
+            50% { opacity: 0.5; box-shadow: 0 0 10px cyan; }
+        }
+        
+        /* РУКИ */
+        .arm {
+            position: absolute;
+            width: 60px;
+            height: 150px;
+            background: linear-gradient(135deg, #c41e1e, #8b0000);
+            border: 3px solid #ffd700;
+            top: 60px;
+        }
+        
+        .arm.left {
+            left: -40px;
+            transform: rotate(15deg);
+            border-radius: 30px 0 0 30px;
+        }
+        
+        .arm.right {
+            right: -40px;
+            transform: rotate(-15deg);
+            border-radius: 0 30px 30px 0;
+            animation: pointGesture 2s ease-in-out infinite;
+            transform-origin: top right;
+        }
+        
+        @keyframes pointGesture {
+            0% { transform: rotate(-15deg); }
+            50% { transform: rotate(-5deg); }
+            100% { transform: rotate(-15deg); }
+        }
+        
+        /* РЕПУЛЬСОР НА РУКЕ */
+        .repulsor {
+            position: absolute;
+            bottom: -10px;
+            right: -15px;
+            width: 40px;
+            height: 40px;
+            background: radial-gradient(circle, #ffffff, #00aaff);
+            border-radius: 50%;
+            box-shadow: 0 0 40px #00aaff;
+            animation: repulsorGlow 1s ease-in-out infinite;
+        }
+        
+        @keyframes repulsorGlow {
+            0%, 100% { transform: scale(1); opacity: 0.9; }
+            50% { transform: scale(1.2); opacity: 1; }
+        }
+        
+        /* НОГИ */
+        .legs {
+            position: absolute;
+            bottom: -30px;
+            left: 20px;
+            width: 100px;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .leg {
+            width: 40px;
+            height: 70px;
+            background: linear-gradient(135deg, #c41e1e, #8b0000);
+            border: 3px solid #ffd700;
+            border-radius: 20px;
+        }
+        
+        .leg.left { transform: rotate(5deg); }
+        .leg.right { transform: rotate(-5deg); }
+        
+        /* РЕАКТОР В ГРУДИ */
+        .arc-reactor {
+            position: absolute;
+            top: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 50px;
+            background: radial-gradient(circle, #ffffff, #00aaff);
+            border-radius: 50%;
+            border: 4px solid #ffd700;
+            box-shadow: 0 0 50px #00aaff;
+            animation: reactorPulse 1.2s ease-in-out infinite;
+            z-index: 10;
+        }
+        
+        @keyframes reactorPulse {
+            0%, 100% { transform: translateX(-50%) scale(1); }
+            50% { transform: translateX(-50%) scale(1.1); }
+        }
+        
+        /* ТЕКСТ, НА КОТОРЫЙ УКАЗЫВАЕТ */
+        .text-block {
+            position: absolute;
+            top: 30%;
+            right: 15%;
+            width: 400px;
+            z-index: 30;
+        }
+        
+        .iron-text {
+            color: white;
+            font-size: 2.5rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            text-shadow: 0 0 20px #00aaff, 2px 2px 0 #000;
+            opacity: 0;
+            transform: translateX(50px);
+            animation: textSlide 0.5s ease-out forwards;
+            margin-bottom: 20px;
+            white-space: nowrap;
+        }
+        
+        .iron-text:nth-child(1) { animation-delay: 0.8s; }
+        .iron-text:nth-child(2) { animation-delay: 1.1s; }
+        .iron-text:nth-child(3) { animation-delay: 1.4s; }
+        
+        @keyframes textSlide {
+            0% { opacity: 0; transform: translateX(50px); }
+            100% { opacity: 1; transform: translateX(0); }
+        }
+        
+        /* ИСЧЕЗНОВЕНИЕ */
+        .ironman.disappear {
+            animation: vanish 1s ease-in forwards;
+            animation-delay: 2.5s;
+        }
+        
+        @keyframes vanish {
+            0% { opacity: 1; transform: scale(1); filter: blur(0); }
+            40% { opacity: 0.7; transform: scale(1.1); filter: blur(3px); }
+            70% { opacity: 0.3; transform: scale(1.3); filter: blur(8px); }
+            100% { opacity: 0; transform: scale(1.5); filter: blur(15px); }
+        }
+        
+        /* ЧАСТИЦЫ ПРИ ИСЧЕЗНОВЕНИИ */
+        .particles {
+            position: absolute;
+            bottom: 10%;
+            left: 30%;
+            width: 180px;
+            height: 350px;
+            pointer-events: none;
+            z-index: 25;
+        }
+        
+        .particle {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            background: #00aaff;
+            border-radius: 50%;
+            opacity: 0;
+            animation: particleFly 1s ease-out forwards;
+            animation-delay: 2.5s;
+        }
+        
+        @keyframes particleFly {
+            0% { opacity: 1; transform: translate(0, 0); }
+            100% { opacity: 0; transform: translate(var(--x), var(--y)); }
+        }
+        
+        /* СВЕТОВАЯ ВСПЫШКА */
+        .flash {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(0,170,255,0.8) 0%, transparent 70%);
+            opacity: 0;
+            animation: flashBang 0.5s ease-out forwards;
+            animation-delay: 2.4s;
+            pointer-events: none;
+            z-index: 40;
+        }
+        
+        @keyframes flashBang {
+            0% { opacity: 0; transform: translate(-50%, -50%) scale(0); }
+            50% { opacity: 1; transform: translate(-50%, -50%) scale(2); }
+            100% { opacity: 0; transform: translate(-50%, -50%) scale(3); }
+        }
+        
+        /* НАДПИСЬ "ТОНИ СТАРК" */
+        .tony-label {
+            position: absolute;
+            bottom: 30px;
+            right: 30px;
+            color: rgba(255,255,255,0.3);
+            font-size: 1rem;
+            letter-spacing: 2px;
+            z-index: 50;
+        }
+    </style>
+</head>
+<body>
+    <div class="stage">
+        <!-- СВЕТ ОТ ПРИЗЕМЛЕНИЯ -->
+        <div class="light-effect"></div>
+        <div class="smoke"></div>
+        
+        <!-- ЖЕЛЕЗНЫЙ ЧЕЛОВЕК -->
+        <div class="ironman" id="ironman">
+            <div class="armor-body">
+                <div class="gold-accent"></div>
+                <div class="arc-reactor"></div>
+                <div class="iron-head">
+                    <div class="eyes">
+                        <div class="eye"></div>
+                        <div class="eye"></div>
+                    </div>
+                </div>
+                <div class="arm left"></div>
+                <div class="arm right">
+                    <div class="repulsor"></div>
+                </div>
+                <div class="legs">
+                    <div class="leg left"></div>
+                    <div class="leg right"></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- ЧАСТИЦЫ ДЛЯ ЭФФЕКТА ИСЧЕЗНОВЕНИЯ -->
+        <div class="particles" id="particles"></div>
+        
+        <!-- ТЕКСТ -->
+        <div class="text-block">
+            <div class="iron-text">⚡ ИСКУССТВЕННЫЙ ИНТЕЛЛЕКТ</div>
+            <div class="iron-text">⚡ НЕУЯЗВИМОСТЬ</div>
+            <div class="iron-text">⚡ ПОЛЁТ</div>
+        </div>
+        
+        <!-- ФИНАЛЬНАЯ ВСПЫШКА -->
+        <div class="flash"></div>
+        
+        <!-- ПОДПИСЬ -->
+        <div class="tony-label">TONY STARK · IRON MAN</div>
+    </div>
+
+    <script>
+        // Активируем исчезновение
+        setTimeout(() => {
+            document.getElementById('ironman').classList.add('disappear');
+        }, 2500);
+        
+        // Создаём частицы
+        const particlesContainer = document.getElementById('particles');
+        for (let i = 0; i < 30; i++) {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+            
+            // Случайное направление
+            const x = (Math.random() - 0.5) * 400;
+            const y = (Math.random() - 0.5) * 400;
+            particle.style.setProperty('--x', x + 'px');
+            particle.style.setProperty('--y', y + 'px');
+            particle.style.left = Math.random() * 180 + 'px';
+            particle.style.top = Math.random() * 350 + 'px';
+            particle.style.animationDelay = (2.5 + Math.random() * 0.5) + 's';
+            
+            particlesContainer.appendChild(particle);
+        }
+    </script>
+</body>
+</html>
