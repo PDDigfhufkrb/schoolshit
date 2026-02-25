@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Школа Жизни – спасательный круг в море рекламы</title>
+    <link rel="stylesheet" href="https://yookassa.ru/integration/simplepay/css/yookassa_construct_form.css">
+    <style>
+        /* БАЗА */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+        }
+
+        body {
+            font-family: 'Arial Black', 'Impact', 'Oswald', sans-serif;
+            color: white;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* ФОН (ТВОЯ КАРТИНКА) */
+        .background-fixed {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background-image: url('https://s10.iimage.su/s/25/gp1v1eRxInSs0pXetaCiIXMvqZXDmQcFcJ4ZPodID.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            filter: brightness(0.3) blur(2px); /* Затемнение и лёгкое размытие */
+        }
+
+        /* ТЁМНЫЙ СЛОЙ ДЛЯ ЧИТАЕМОСТИ */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: -1;
+        }
+
+        /* ЗАПРЕТ СОХРАНЕНИЯ КАРТИНОК */
+        img {
+            pointer-events: none;
+            -webkit-user-drag: none;
+            user-select: none;
+        }
+
+        /* КОНТЕЙНЕР */
+        .content {
+            position: relative;
+            z-index: 1;
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* ЗАГОЛОВОК */
+        h1 {
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            text-align: center;
+            text-transform: uppercase;
+            text-shadow: 4px 4px 0 #ff4500, 6px 6px 0 #000;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+        }
+
+        .subhead {
+            font-size: 1.3rem;
+            text-align: center;
+            font-family: 'Arial', sans-serif;
+            margin-bottom: 50px;
+            max-width: 800px;
+            line-height: 1.6;
+            color: #ffaa33;
+            border-bottom: 2px solid #ff4500;
+            padding-bottom: 20px;
+        }
+
+        /* СЕКЦИЯ С КАРТИНКАМИ */
+        .journey {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            margin: 40px 0;
+            width: 100%;
+            position: relative;
+        }
+
+        .step {
+            flex: 1 1 250px;
+            max-width: 300px;
+            text-align: center;
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+
+        .step:hover {
+            transform: translateY(-10px);
+        }
+
+        .step img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 30px;
+            border: 4px solid #ffaa33;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+        }
+
+        /* СТРЕЛКИ (ТЕПЕРЬ ОНИ ПОЯВЛЯЮТСЯ ПРИ НАВЕДЕНИИ) */
+        .step-arrow {
+            font-size: 4rem;
+            color: #ffaa33;
+            opacity: 0;
+            transition: opacity 0.3s, transform 0.3s;
+            position: relative;
+            z-index: 5;
+            text-shadow: 0 0 20px #ff4500;
+            pointer-events: none;
+        }
+
+        .journey:hover .step-arrow {
+            opacity: 0.8;
+        }
+
+        .step-arrow.left {
+            transform: rotate(180deg);
+        }
+
+        /* ТЕКСТ ПОД КАРТИНКАМИ */
+        .caption-final {
+            text-align: center;
+            font-size: 2rem;
+            color: #ffaa33;
+            text-transform: uppercase;
+            margin: 30px 0 20px;
+            text-shadow: 2px 2px 0 #000;
+            border-top: 2px dashed #ff4500;
+            padding-top: 30px;
+            width: 100%;
+        }
+
+        /* ТЕКСТ УБЕЖДЕНИЯ (ТЕПЕРЬ ЭТО БЛОК С ЦИФРАМИ) */
+        .math-block {
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(10px);
+            border: 3px solid #ff4500;
+            border-radius: 50px;
+            padding: 50px;
+            margin: 50px 0;
+            max-width: 1000px;
+            width: 100%;
+        }
+
+        .math-block p {
+            font-family: 'Arial', sans-serif;
+            font-size: 1.5rem;
+            line-height: 1.8;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .math-highlight {
+            font-size: 4rem;
+            color: gold;
+            display: block;
+            text-shadow: 0 0 30px orange;
+        }
+
+        .math-cross {
+            text-decoration: line-through;
+            text-decoration-color: #ff4500;
+            text-decoration-thickness: 4px;
+            color: #888;
+        }
+
+        /* ПЛАТЁЖНЫЙ БЛОК */
+        .payment-block {
+            background: linear-gradient(145deg, #111, #2a2a2a);
+            border: 4px solid gold;
+            border-radius: 80px;
+            padding: 50px;
+            margin: 40px 0;
+            max-width: 700px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(255,215,0,0.2);
+        }
+
+        .price {
+            font-size: 5rem;
+            font-weight: 900;
+            color: gold;
+            text-shadow: 0 0 30px orange;
+            line-height: 1;
+        }
+
+        .price small {
+            font-size: 2rem;
+            color: #ccc;
+        }
+
+        .saving-badge {
+            background: #ff4500;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            display: inline-block;
+            margin: 20px 0;
+            transform: rotate(-2deg);
+            box-shadow: 0 10px 0 #8b0000;
+        }
+
+        /* ФОРМА ЮKASSA */
+        .ym-customer-info {
+            margin: 30px 0 20px;
+        }
+
+        .ym-input {
+            background: rgba(255,255,255,0.1);
+            border: 2px solid #ffaa33;
+            border-radius: 60px;
+            padding: 20px 30px;
+            width: 100%;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .ym-btn-pay {
+            background: linear-gradient(135deg, #ff4500, #ff8c00);
+            border: none;
+            border-radius: 60px;
+            padding: 25px;
+            font-size: 2rem;
+            font-weight: bold;
+            color: white;
+            width: 100%;
+            border-bottom: 8px solid #8b0000;
+            cursor: pointer;
+            transition: 0.1s;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        .ym-btn-pay:active {
+            transform: translateY(8px);
+            border-bottom-width: 2px;
+        }
+
+        /* АДАПТАЦИЯ */
+        @media (max-width: 900px) {
+            .journey { gap: 20px; }
+            .math-block p { font-size: 1.2rem; }
+            .price { font-size: 3.5rem; }
+            .ym-btn-pay { font-size: 1.5rem; }
+        }
+
+        @media (max-width: 700px) {
+            .step-arrow { display: none; }
+            .math-highlight { font-size: 2.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ФОН ИЗ ТВОЕЙ КАРТИНКИ -->
+    <div class="background-fixed"></div>
+    <div class="overlay"></div>
+
+    <div class="content">
+        <h1>⚡ ШКОЛА ЖИЗНИ ⚡</h1>
+        <div class="subhead">Ты уже купил 127 курсов. Этот — последний.</div>
+
+        <!-- ПУТЬ ГЕРОЯ (3 КАРТИНКИ СО СТРЕЛКАМИ) -->
+        <div class="journey">
+            <!-- Шаг 1: Зависимость -->
+            <div class="step">
+                <img src="https://s10.iimage.su/s/24/gFfYNJJxMNpE16CVSzs5XdKR8OtRXOlfug7UzgNON.jpg" alt="Парень и телевизор">
+            </div>
+            <!-- Стрелка вправо -->
+            <div class="step-arrow">➡️</div>
+
+            <!-- Шаг 2: Борьба -->
+            <div class="step">
+                <img src="https://s10.iimage.su/s/24/gWtdTY1xJj1KKrG9JKbXNMYG66ThVgdWCoK6v5O1n.jpg" alt="Гэндальф против рекламы">
+            </div>
+            <!-- Ещё одна стрелка -->
+            <div class="step-arrow">➡️</div>
+
+            <!-- Шаг 3: Свобода -->
+            <div class="step">
+                <img src="https://s10.iimage.su/s/24/g3Dsuenx4nYqv7nzUDSN1RKLfy0fs8iNdGg1Qyl5M.jpg" alt="Счастливая пара">
+            </div>
+        </div>
+
+        <!-- ФИНАЛЬНАЯ ПОДПИСЬ (уже не под картинкой, а отдельно) -->
+        <div class="caption-final">
+            ОНИ СЧАСТЛИВЫ. ОНИ КУПИЛИ ЭТОТ КУРС.
+        </div>
+
+        <!-- БЛОК С ЖЕСТКОЙ МАТЕМАТИКОЙ -->
+        <div class="math-block">
+            <p>
+                <span class="math-highlight">300 000 ₽</span>
+                ты уже оставил в кошельках инфоцыган.
+            </p>
+            <p>
+                <span class="math-highlight math-cross">295 000 ₽</span>
+                могли бы остаться у тебя.
+            </p>
+            <p style="font-size: 2rem;">
+                Тебе остался всего <strong>один</strong> шаг.
+            </p>
+        </div>
+
+        <!-- БЛОК ОПЛАТЫ -->
+        <div class="payment-block">
+            <div class="price">
+                5 000 ₽ <small>навсегда</small>
+            </div>
+            <div class="saving-badge">
+                ТЫ ЭКОНОМИШЬ 295 000 ₽
+            </div>
+
+            <form target="_blank" class="yoomoney-payment-form" action="https://yookassa.ru/integration/simplepay/payment" method="post">
+                <div class="ym-customer-info">
+                    <input name="cps_email" class="ym-input" placeholder="Твой email для доступа" type="email" required>
+                </div>
+
+                <input name="customerNumber" type="hidden" value="SHKOLA_ZHIZNI">
+                <input name="sum" type="hidden" value="5000">
+                <input name="shopSuccessURL" type="hidden" value="https://schoolshit.ru/success.html">
+                <input name="shopId" type="hidden" value="1256818">
+
+                <div class="ym-payment-btn-block">
+                    <button type="submit" class="ym-btn-pay">
+                        ЗАБРАТЬ СВОИ 295 000 ₽
+                    </button>
+                </div>
+                <img src="https://yookassa.ru/integration/simplepay/img/iokassa-gray.svg" class="ym-logo" style="margin-top: 20px;" alt="ЮKassa">
+            </form>
+        </div>
+
+        <!-- ПОСЛЕДНЯЯ ФРАЗА -->
+        <div style="font-size: 1.2rem; color: #aaa; margin: 30px 0; text-align: center; font-family: 'Arial', sans-serif;">
+            P.S. Это не шутка. Это единственный честный курс в твоей жизни.
+        </div>
+    </div>
+
+    <script src="https://yookassa.ru/integration/simplepay/js/yookassa_construct_form.js"></script>
+    <script>
+        // Защита картинок
+        document.addEventListener('contextmenu', e => e.target.tagName === 'IMG' && e.preventDefault());
+        
+        // Сохранение email
+        const emailInput = document.querySelector('input[name="cps_email"]');
+        emailInput.addEventListener('input', () => localStorage.setItem('shkola_email', emailInput.value));
+        emailInput.value = localStorage.getItem('shkola_email') || '';
+    </script>
+
+</body>
+</html>
