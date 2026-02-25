@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ХВАТИТ ПОКУПАТЬ ВОЗДУХ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://yookassa.ru/integration/simplepay/css/yookassa_construct_form.css?v=1.33.0">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #000;
+            color: #fff;
+            line-height: 1.4;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        /* ЧЁТКАЯ СЕТКА */
+        section {
+            margin-bottom: 80px;
+        }
+        
+        h1 {
+            font-size: 4rem;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+        }
+        
+        h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 30px;
+        }
+        
+        p {
+            font-size: 1.3rem;
+            margin-bottom: 30px;
+            color: #ccc;
+        }
+        
+        .bold {
+            font-weight: 700;
+            color: #fff;
+        }
+        
+        .red {
+            color: #ff4b2b;
+        }
+        
+        /* КАРТИНКИ — ВО ВЕСЬ РОСТ */
+        .full-img {
+            width: 100%;
+            border-radius: 20px;
+            margin: 40px 0;
+            border: 2px solid #ff4b2b;
+        }
+        
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            pointer-events: none;
+            user-select: none;
+        }
+        
+        /* СТРУКТУРА — ДВЕ КОЛОНКИ ГДЕ НУЖНО */
+        .row {
+            display: flex;
+            gap: 60px;
+            align-items: center;
+            margin: 60px 0;
+        }
+        
+        .col {
+            flex: 1;
+        }
+        
+        /* СПИСОК БЕЗ ВОДЫ */
+        .list {
+            list-style: none;
+        }
+        
+        .list li {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            padding-left: 30px;
+            position: relative;
+        }
+        
+        .list li::before {
+            content: "→";
+            color: #ff4b2b;
+            position: absolute;
+            left: 0;
+            font-weight: 700;
+        }
+        
+        /* БЛОК С ГРОБОМ */
+        .coffin-box {
+            background: #111;
+            border: 2px solid #ff4b2b;
+            border-radius: 30px;
+            padding: 40px;
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            margin: 60px 0;
+        }
+        
+        .coffin-box img {
+            width: 120px;
+        }
+        
+        .coffin-box p {
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 0;
+            color: #fff;
+        }
+        
+        .coffin-box small {
+            display: block;
+            font-size: 1rem;
+            font-weight: 400;
+            color: #777;
+            margin-top: 10px;
+        }
+        
+        /* ЦЕНА */
+        .price-box {
+            background: #111;
+            border: 2px solid #ff4b2b;
+            border-radius: 30px;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .old-price {
+            font-size: 1.5rem;
+            color: #777;
+            text-decoration: line-through;
+        }
+        
+        .new-price {
+            font-size: 5rem;
+            font-weight: 900;
+            color: #ff4b2b;
+            line-height: 1;
+            margin: 20px 0;
+        }
+        
+        /* ФОРМА — БЕЗ ГЛЮКОВ */
+        .payment-section {
+            margin: 60px 0;
+        }
+        
+        .yoomoney-payment-form {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        .ym-customer-info {
+            background: #111 !important;
+            border: 2px solid #ff4b2b !important;
+            border-radius: 16px !important;
+            padding: 20px !important;
+            margin-bottom: 20px !important;
+        }
+        
+        .ym-block-title {
+            color: #fff !important;
+            font-weight: 700 !important;
+            margin-bottom: 10px !important;
+        }
+        
+        .ym-input {
+            background: #000 !important;
+            border: 1px solid #333 !important;
+            color: #fff !important;
+            border-radius: 12px !important;
+            padding: 15px !important;
+            width: 100% !important;
+        }
+        
+        .ym-payment-btn-block {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 15px !important;
+        }
+        
+        .ym-btn-pay {
+            background: #ff4b2b !important;
+            border: none !important;
+            border-radius: 60px !important;
+            padding: 20px !important;
+            font-size: 1.3rem !important;
+            font-weight: 700 !important;
+            color: #fff !important;
+            width: 100% !important;
+            cursor: pointer !important;
+            text-transform: uppercase !important;
+        }
+        
+        .ym-btn-pay:hover {
+            background: #ff6b4a !important;
+        }
+        
+        .ym-logo {
+            opacity: 0.5 !important;
+        }
+        
+        .ym-sum-input {
+            display: none !important;
+        }
+        
+        /* P.S. ЖИРНЫЙ */
+        .ps {
+            font-size: 1.5rem;
+            font-style: italic;
+            padding: 40px;
+            border-left: 4px solid #ff4b2b;
+            background: #111;
+            border-radius: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 40px 0;
+            color: #444;
+            border-top: 1px solid #222;
+        }
+        
+        /* АДАПТАЦИЯ */
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            .row { flex-direction: column; }
+            .coffin-box { flex-direction: column; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        
+        <!-- ЗАГОЛОВОК -->
+        <h1>ТЫ КУПИЛ КУРСОВ<br>НА СОТНИ ТЫСЯЧ.</h1>
+        <p style="font-size: 2rem; margin-bottom: 60px;">И заработал <span class="red">0</span>.</p>
+        
+        <!-- ТЕЛЕВИЗОР -->
+        <img src="https://s10.iimage.su/s/25/gp1v1eRxInSs0pXetaCiIXMvqZXDmQcFcJ4ZPodID.jpg" class="full-img" alt="Телевизор">
+        
+        <!-- ТЕКСТ -->
+        <p>Сколько бабок ты спустил на курсы, которые обещали научить тебя зарабатывать, быть успешным, счастливым? <span class="bold">20 тысяч? 50? 300?</span></p>
+        <p>И где всё это?</p>
+        
+        <!-- ГРОБ -->
+        <div class="coffin-box">
+            <img src="https://s10.iimage.su/s/25/gD40RMfxy6J9SZl2IHQRzCdXyP9aH9ffq9ytG3OOm.jpg" alt="Гроб">
+            <p>Всё, что ты купил — воздух.<br><small>Твои бабки и мечты умерли здесь.</small></p>
+        </div>
+        
+        <!-- ЧТО ВНУТРИ -->
+        <h2>ЭТОТ КУРС — ДРУГОЙ.</h2>
+        <p>Он не учит «зарабатывать». Он учит <span class="bold red">не покупать</span>.</p>
+        
+        <ul class="list">
+            <li>Диагноз: почему ты ведёшься на рекламу</li>
+            <li>Прививка: видеть развод за километр</li>
+            <li>Лекарство: что делать вместо покупки</li>
+            <li>Жизнь: бабки остаются у тебя</li>
+        </ul>
+        
+        <!-- ФИНАЛЬНАЯ КАРТИНКА -->
+        <img src="https://s10.iimage.su/s/24/g3Dsuenx4nYqv7nzUDSN1RKLfy0fs8iNdGg1Qyl5M.jpg" class="full-img" alt="Свобода">
+        
+        <!-- ЦЕНА -->
+        <div class="price-box">
+            <div class="old-price">15 000 ₽</div>
+            <div class="new-price">5 000 ₽</div>
+            <p style="margin: 0;">Для тех, кто готов остановиться.</p>
+        </div>
+        
+        <!-- ФОРМА -->
+        <div class="payment-section">
+            <form class="yoomoney-payment-form" target="_blank" action="https://yookassa.ru/integration/simplepay/payment" method="post">
+                <div class="ym-customer-info">
+                    <div class="ym-block-title">Твой email (куда слать доступ)</div>
+                    <input name="cps_email" class="ym-input" placeholder="например, ty@durak.ru" type="text" required>
+                </div>
+                <div class="ym-hidden-inputs">
+                    <input name="shopSuccessURL" type="hidden" value="https://schoolshit.ru/success.html">
+                </div>
+                <div class="ym-payment-btn-block">
+                    <div style="display: none;"><input name="sum" type="number" value="5000"></div>
+                    <button class="ym-btn-pay">ЗАБРАТЬ · 5 000 ₽</button>
+                    <img src="https://yookassa.ru/integration/simplepay/img/iokassa-gray.svg" class="ym-logo" style="width: 100px;">
+                </div>
+                <input name="shopId" type="hidden" value="1256818">
+            </form>
+        </div>
+        
+        <!-- P.S. -->
+        <div class="ps">
+            «Купишь после нас ещё один курс — вернём деньги. Потому что мы облажались. Но ты больше не купишь.»
+        </div>
+        
+        <!-- ПОДВАЛ -->
+        <div class="footer">
+            ХВАТИТ ПОКУПАТЬ ВОЗДУХ © 2026
+        </div>
+        
+    </div>
+    <script src="https://yookassa.ru/integration/simplepay/js/yookassa_construct_form.js?v=1.33.0"></script>
+</body>
+</html>
