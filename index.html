@@ -27,7 +27,6 @@
             overflow-x: hidden;
         }
         
-        /* ХАЙПОВЫЙ ФОН */
         .noise {
             position: fixed;
             top: 0;
@@ -162,6 +161,40 @@
             opacity: 0.8;
         }
         
+        /* ИЗОБРАЖЕНИЕ 3 - ЗАВОРОЖЁННЫЙ ПОДРОСТОК */
+        .tv-image {
+            margin: 60px 0;
+            border-radius: 30px;
+            overflow: hidden;
+            position: relative;
+            border: 1px solid rgba(255,75,43,0.3);
+            box-shadow: 0 30px 60px -20px rgba(255,75,43,0.5);
+        }
+        
+        .tv-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.3s ease;
+        }
+        
+        .tv-image:hover img {
+            transform: scale(1.02);
+        }
+        
+        .tv-caption {
+            position: absolute;
+            bottom: 30px;
+            left: 30px;
+            background: rgba(0,0,0,0.8);
+            padding: 15px 25px;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            border-left: 4px solid #ff4b2b;
+            backdrop-filter: blur(10px);
+        }
+        
         /* БЛОК ЦЕННОСТИ */
         .value {
             display: grid;
@@ -234,6 +267,47 @@
             font-size: 0.9rem;
         }
         
+        /* ИЗОБРАЖЕНИЕ 2 - ГЭНДАЛЬФ */
+        .gandalf-block {
+            margin: 80px 0;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+            background: rgba(255,255,255,0.02);
+            border-radius: 30px;
+            padding: 40px;
+            border: 1px solid rgba(255,75,43,0.2);
+        }
+        
+        .gandalf-image {
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(255,75,43,0.3);
+        }
+        
+        .gandalf-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .gandalf-text h3 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+        }
+        
+        .gandalf-text h3 span {
+            color: #ff4b2b;
+        }
+        
+        .gandalf-text p {
+            font-size: 1.2rem;
+            color: rgba(255,255,255,0.7);
+            margin-bottom: 20px;
+        }
+        
         /* ФОРМА ОПЛАТЫ (ЮKASSA) */
         .payment-section {
             background: rgba(255,255,255,0.02);
@@ -254,6 +328,41 @@
             text-align: center;
             color: rgba(255,255,255,0.6);
             margin-bottom: 40px;
+        }
+        
+        /* ИЗОБРАЖЕНИЕ 1 - ЦЕЛУЮЩАЯСЯ ПАРА (ПОСЛЕ ОПЛАТЫ) */
+        .happy-end {
+            margin: 80px 0 40px;
+            border-radius: 30px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .happy-end img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .happy-end-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.9));
+            padding: 60px 40px 40px;
+        }
+        
+        .happy-end-overlay h3 {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+        
+        .happy-end-overlay p {
+            font-size: 1.1rem;
+            color: rgba(255,255,255,0.8);
+            max-width: 600px;
         }
         
         /* Кастомизация формы ЮKassa */
@@ -396,8 +505,19 @@
                 gap: 30px;
             }
             
+            .gandalf-block {
+                grid-template-columns: 1fr;
+            }
+            
             .bonus {
                 grid-template-columns: 1fr;
+            }
+            
+            .tv-caption {
+                bottom: 15px;
+                left: 15px;
+                padding: 10px 15px;
+                font-size: 0.9rem;
             }
         }
     </style>
@@ -411,7 +531,7 @@
             <div class="logo">АНТИИНФОЦЫГАН</div>
             <div class="counter">
                 <i class="far fa-clock" style="margin-right: 8px;"></i> 
-                <span>37</span> мест по 500₽
+                <span>37</span> мест по 5000₽
             </div>
         </div>
         
@@ -428,6 +548,14 @@
                 Этот курс — прививка на всю жизнь.
             </p>
         </section>
+        
+        <!-- ИЗОБРАЖЕНИЕ 3: ЗАВОРОЖЁННЫЙ ПОДРОСТОК -->
+        <div class="tv-image">
+            <img src="https://s10.iimage.su/s/24/gFfYNJJxMNpE16CVSzs5XdKR8OtRXOlfug7UzgNON.jpg" alt="Человек, заворожённый телевизором">
+            <div class="tv-caption">
+                <i class="fas fa-tv" style="margin-right: 10px;"></i> Ты сейчас
+            </div>
+        </div>
         
         <!-- ПРОВЕРКА (БОЛЬ) -->
         <section class="checklist">
@@ -460,6 +588,18 @@
                 <div style="background: rgba(255,75,43,0.1); border-radius: 60px; padding: 15px; font-weight: 600; margin-top: 20px;">
                     ⏳ Осталось <span style="color: #ff4b2b;">37</span> мест по этой цене
                 </div>
+            </div>
+        </section>
+        
+        <!-- БЛОК ГЭНДАЛЬФА (РЕКЛАМА VS ВЫ) -->
+        <section class="gandalf-block">
+            <div class="gandalf-image">
+                <img src="https://s10.iimage.su/s/24/gWtdTY1xJj1KKrG9JKbXNMYG66ThVgdWCoK6v5O1n.jpg" alt="Гэндальф сражается с рекламой">
+            </div>
+            <div class="gandalf-text">
+                <h3>ТЫ <span>ПРОТИВ</span> РЕКЛАМЫ</h3>
+                <p>Каждый день инфоцыганы атакуют тебя. Ты сражаешься в одиночку. И пока — проигрываешь.</p>
+                <p><strong>Этот курс — твой меч.</strong> После него ты будешь видеть развод за километр.</p>
             </div>
         </section>
         
@@ -513,6 +653,15 @@
             </form>
         </section>
         
+        <!-- ИЗОБРАЖЕНИЕ 1: СЧАСТЛИВАЯ ПАРА (ПОСЛЕ ОПЛАТЫ) -->
+        <div class="happy-end">
+            <img src="https://s10.iimage.su/s/24/g3Dsuenx4nYqv7nzUDSN1RKLfy0fs8iNdGg1Qyl5M.jpg" alt="Счастливая пара">
+            <div class="happy-end-overlay">
+                <h3>ТАК ВЫГЛЯДИТ СВОБОДА</h3>
+                <p>Когда перестаёшь покупать воздух и начинаешь жить. Когда деньги остаются у тебя, а не у чужих дядь.</p>
+            </div>
+        </div>
+        
         <!-- P.S. УБИЙСТВЕННЫЙ -->
         <section class="ps">
             <i class="fas fa-quote-left" style="color: #ff4b2b; opacity: 0.5; font-size: 2rem; margin-right: 15px;"></i>
@@ -530,18 +679,5 @@
     
     <!-- Скрипт ЮKassa (обязательно) -->
     <script src="https://yookassa.ru/integration/simplepay/js/yookassa_construct_form.js?v=1.33.0"></script>
-    
-    <!-- Скрипт для обновления счётчика (можно подключить реальный счётчик позже) -->
-    <script>
-        // Здесь будет обновление счётчика мест через API
-        // Пока просто мигаем для хайпа
-        setInterval(() => {
-            const counter = document.querySelector('.counter span');
-            if (counter) {
-                // Имитация уменьшения (потом заменишь на реальные данные)
-                // counter.textContent = Math.floor(Math.random() * 30 + 10);
-            }
-        }, 30000);
-    </script>
 </body>
 </html>
