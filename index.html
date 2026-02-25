@@ -62,6 +62,13 @@
             z-index: 2;
         }
         
+        /* ВЫДЕЛЕНИЕ ТЕКСТА */
+        .highlight {
+            color: #ff4b2b;
+            font-weight: 800;
+            text-shadow: 0 0 20px rgba(255,75,43,0.5);
+        }
+        
         /* ШАПКА */
         .header {
             padding: 30px 0;
@@ -100,6 +107,54 @@
             font-size: 1.2rem;
         }
         
+        /* СЕКЦИЯ С ТЕЛЕВИЗОРОМ */
+        .tv-block {
+            position: relative;
+            margin: 40px 0 60px;
+            border-radius: 30px;
+            overflow: hidden;
+            border: 3px solid rgba(255,75,43,0.5);
+            box-shadow: 0 30px 60px -20px #ff4b2b;
+        }
+        
+        .tv-image {
+            width: 100%;
+            height: auto;
+            display: block;
+            pointer-events: none;
+            user-select: none;
+        }
+        
+        .tv-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0.8) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .tv-overlay h2 {
+            font-size: 4rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: -2px;
+            margin-bottom: 20px;
+            text-shadow: 0 0 30px #ff4b2b;
+        }
+        
+        .tv-overlay p {
+            font-size: 1.3rem;
+            max-width: 600px;
+            color: rgba(255,255,255,0.8);
+        }
+        
         /* ГЕРОЙ */
         .hero {
             padding: 40px 0 60px;
@@ -134,54 +189,34 @@
             display: inline-block;
         }
         
-        /* ПАЦАН ПЕРЕД ТЕЛИКОМ */
-        .tv-section {
-            position: relative;
-            margin: 40px 0 60px;
-            border-radius: 30px;
-            overflow: hidden;
-            border: 3px solid rgba(255,75,43,0.5);
-            box-shadow: 0 30px 60px -20px #ff4b2b;
-        }
-        
-        .tv-image {
-            width: 100%;
-            height: auto;
-            display: block;
-            pointer-events: none;
-            user-select: none;
-        }
-        
-        .tv-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0.8) 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            text-align: center;
-        }
-        
-        .tv-overlay h2 {
-            font-size: 4rem;
-            font-weight: 900;
-            text-transform: uppercase;
-            letter-spacing: -2px;
-            margin-bottom: 20px;
-            text-shadow: 0 0 30px #ff4b2b;
-        }
-        
-        .tv-overlay p {
+        .hero p {
             font-size: 1.3rem;
-            max-width: 600px;
-            color: rgba(255,255,255,0.8);
+            color: rgba(255,255,255,0.7);
+            max-width: 700px;
+            margin: 0 auto 40px;
         }
         
-        /* ПРОВЕРКА (БОЛЬ) */
+        /* ТЕКСТОВЫЙ БЛОК ПОСЛЕ ГЕРОЯ */
+        .pain-text {
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 50px;
+            margin: 40px 0;
+            border: 1px solid rgba(255,75,43,0.3);
+            font-size: 1.2rem;
+            line-height: 1.8;
+        }
+        
+        .pain-text p {
+            margin-bottom: 20px;
+        }
+        
+        .pain-text p:last-child {
+            margin-bottom: 0;
+        }
+        
+        /* ПРОВЕРКА С ГРОБОМ */
         .checklist {
             background: rgba(0,0,0,0.7);
             backdrop-filter: blur(10px);
@@ -220,7 +255,7 @@
             font-size: 1.5rem;
         }
         
-        /* ГРОБ */
+        /* БЛОК С ГРОБОМ */
         .coffin-block {
             grid-column: span 2;
             display: flex;
@@ -254,79 +289,49 @@
             font-weight: 400;
             color: rgba(255,255,255,0.6);
             margin-top: 5px;
+            text-transform: none;
         }
         
-        /* ТВОЙ ТЕКСТ */
-        .money-text {
-            margin: 60px 0;
-            padding: 40px;
-            background: rgba(0,0,0,0.5);
+        /* БЛОК ГЭНДАЛЬФА */
+        .gandalf-block {
+            margin: 80px 0;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+            background: rgba(0,0,0,0.7);
             backdrop-filter: blur(10px);
-            border-left: 4px solid #ff4b2b;
-            border-radius: 16px;
-        }
-        
-        .money-text p {
-            font-size: 1.3rem;
-            margin-bottom: 20px;
-            color: rgba(255,255,255,0.9);
-        }
-        
-        .money-text strong {
-            color: #ff4b2b;
-            font-weight: 800;
-        }
-        
-        .highlight {
-            color: #ff4b2b;
-            font-weight: 800;
-            font-size: 1.4rem;
-        }
-        
-        /* ГЭНДАЛЬФ */
-        .gandalf-section {
-            margin: 60px 0;
             border-radius: 30px;
-            overflow: hidden;
-            position: relative;
-            border: 3px solid #ff4b2b;
+            padding: 40px;
+            border: 1px solid rgba(255,75,43,0.3);
         }
         
         .gandalf-image {
+            border-radius: 20px;
+            overflow: hidden;
+            border: 2px solid #ff4b2b;
+        }
+        
+        .gandalf-image img {
             width: 100%;
             height: auto;
             display: block;
-            filter: brightness(0.7) contrast(1.1);
             pointer-events: none;
+            user-select: none;
         }
         
-        .gandalf-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.3) 100%);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding: 60px;
-        }
-        
-        .gandalf-overlay h3 {
-            font-size: 3rem;
-            font-weight: 900;
+        .gandalf-text h3 {
+            font-size: 2.5rem;
+            font-weight: 800;
             margin-bottom: 20px;
-            max-width: 600px;
         }
         
-        .gandalf-overlay h3 span {
+        .gandalf-text h3 span {
             color: #ff4b2b;
         }
         
-        .gandalf-overlay p {
+        .gandalf-text p {
             font-size: 1.2rem;
-            max-width: 500px;
             color: rgba(255,255,255,0.8);
             margin-bottom: 20px;
         }
@@ -396,95 +401,85 @@
             margin-bottom: 30px;
         }
         
-        /* ФОРМА ОПЛАТЫ — ИСПРАВЛЕНО */
+        /* ИСПРАВЛЕННАЯ ФОРМА ОПЛАТЫ */
         .payment-section {
             background: rgba(0,0,0,0.7);
             backdrop-filter: blur(10px);
             border-radius: 30px;
-            padding: 40px;
+            padding: 50px;
             margin: 60px 0;
             border: 1px solid rgba(255,75,43,0.3);
         }
         
         .payment-section h2 {
-            font-size: 2rem;
+            font-size: 2.5rem;
             font-weight: 800;
             margin-bottom: 30px;
             text-align: center;
         }
         
         .yoomoney-payment-form {
-            max-width: 100%;
+            max-width: 500px;
             margin: 0 auto;
         }
         
-        /* Переопределение стилей ЮKassa */
-        .ym-payment-btn-block {
-            display: flex !important;
-            flex-direction: column !important;
-            gap: 15px !important;
-            background: transparent !important;
-            padding: 0 !important;
-            margin-top: 20px !important;
-        }
-        
         .ym-customer-info {
-            background: rgba(255,255,255,0.05) !important;
+            background: rgba(255,255,255,0.03) !important;
             border: 1px solid rgba(255,75,43,0.3) !important;
             border-radius: 16px !important;
-            padding: 25px !important;
-            margin-bottom: 0 !important;
+            padding: 20px !important;
+            margin-bottom: 20px !important;
         }
         
         .ym-block-title {
             color: #fff !important;
-            font-size: 1rem !important;
             margin-bottom: 15px !important;
-            font-weight: 600 !important;
+            font-size: 1rem !important;
         }
         
         .ym-input {
             background: rgba(0,0,0,0.5) !important;
-            border: 1px solid rgba(255,75,43,0.3) !important;
+            border: 1px solid rgba(255,255,255,0.1) !important;
             color: #fff !important;
             border-radius: 12px !important;
-            padding: 15px 20px !important;
-            font-size: 1rem !important;
+            padding: 15px !important;
             width: 100% !important;
+            font-size: 1rem !important;
         }
         
-        .ym-input:focus {
-            border-color: #ff4b2b !important;
-            outline: none !important;
+        .ym-payment-btn-block {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 15px !important;
         }
         
         .ym-btn-pay {
             background: linear-gradient(135deg, #ff4b2b, #ff416c) !important;
             border: none !important;
             border-radius: 60px !important;
-            padding: 20px 30px !important;
+            padding: 20px !important;
             font-size: 1.3rem !important;
             font-weight: 800 !important;
-            color: #fff !important;
+            color: white !important;
             width: 100% !important;
+            cursor: pointer !important;
             text-transform: uppercase !important;
             letter-spacing: 1px !important;
-            cursor: pointer !important;
             transition: all 0.3s ease !important;
         }
         
         .ym-btn-pay:hover {
             transform: translateY(-3px) !important;
-            box-shadow: 0 20px 30px -10px rgba(255,75,43,0.5) !important;
+            box-shadow: 0 20px 30px -10px #ff4b2b !important;
         }
         
         .ym-logo {
             display: block !important;
-            margin: 15px auto 0 !important;
+            margin: 0 auto !important;
             opacity: 0.5 !important;
         }
         
-        .ym-display-none {
+        .ym-sum-input {
             display: none !important;
         }
         
@@ -503,6 +498,7 @@
             display: block;
             filter: brightness(0.9) contrast(1.1);
             pointer-events: none;
+            user-select: none;
         }
         
         .final-overlay {
@@ -549,14 +545,11 @@
         @media (max-width: 768px) {
             .hero h1 { font-size: 2.8rem; }
             .tv-overlay h2 { font-size: 2.5rem; }
-            .tv-overlay { padding: 20px; }
-            .tv-overlay p { font-size: 1rem; }
             .checklist-items { grid-template-columns: 1fr; }
+            .gandalf-block { grid-template-columns: 1fr; }
             .value { grid-template-columns: 1fr; }
             .coffin-block { flex-direction: column; text-align: center; }
-            .gandalf-overlay { padding: 30px; }
-            .gandalf-overlay h3 { font-size: 2rem; }
-            .gandalf-overlay p { font-size: 1rem; }
+            .pain-text { padding: 30px; }
         }
     </style>
 </head>
@@ -571,18 +564,27 @@
             </div>
         </div>
 
+        <!-- ТЕЛЕВИЗОР -->
+        <div class="tv-block">
+            <img class="tv-image" src="https://s10.iimage.su/s/25/gp1v1eRxInSs0pXetaCiIXMvqZXDmQcFcJ4ZPodID.jpg" alt="Телевизор" draggable="false">
+            <div class="tv-overlay">
+                <h2>ВЫКЛЮЧИ ЭКРАН</h2>
+                <p>Каждый день они вещают тебе в голову. Ты смотришь и веришь. Пора остановиться.</p>
+            </div>
+        </div>
+
         <!-- ГЕРОЙ -->
         <section class="hero">
             <div class="badge">⚡️ ПОСЛЕДНИЙ КУРС В ТВОЕЙ ЖИЗНИ ⚡️</div>
             <h1>ТЫ КУПИЛ КУРСОВ НА <span>100 ТЫСЯЧ</span><br>А ЗАРАБОТАЛ <span>0</span></h1>
         </section>
 
-        <!-- ПАЦАН ПЕРЕД ТЕЛИКОМ -->
-        <div class="tv-section">
-            <img class="tv-image" src="https://s10.iimage.su/s/24/gFfYNJJxMNpE16CVSzs5XdKR8OtRXOlfug7UzgNON.jpg" alt="Пацан перед теликом" draggable="false">
-            <div class="tv-overlay">
-                <h2>ТЫ СЕЙЧАС</h2>
-            </div>
+        <!-- ТВОЙ ТЕКСТ -->
+        <div class="pain-text">
+            <p>Сколько ты уже потратил на курсы, которые обещали научить тебя зарабатывать, быть успешным, счастливым? <span class="highlight">2 тысячи? 50? 300?</span></p>
+            <p>Этот курс — единственный, который действительно <span class="highlight">работает</span>. Потому что после него ты просто перестанешь покупать все остальные курсы.</p>
+            <p>Ты сэкономишь <span class="highlight">сотни тысяч рублей</span>. Ты перестанешь вестись на рекламу. Ты наконец поймёшь, что всё, что тебе нужно — уже есть у тебя внутри.</p>
+            <p style="font-size: 1.5rem; margin-top: 30px;">Так что 5 000 — это не цена курса. Это цена твоей <span class="highlight">свободы от маркетинга</span>.</p>
         </div>
 
         <!-- ПРОВЕРКА + ГРОБ -->
@@ -607,25 +609,19 @@
             </div>
         </section>
 
-        <!-- ТВОЙ ТЕКСТ -->
-        <div class="money-text">
-            <p>Сколько ты уже потратил на курсы, которые обещали научить тебя зарабатывать, быть успешным, счастливым? <strong>2 тысячи? 50? 300?</strong></p>
-            <p>Этот курс — единственный, который действительно <span class="highlight">работает</span>. Потому что после него ты просто перестанешь покупать все остальные курсы.</p>
-            <p>Ты сэкономишь <strong>сотни тысяч рублей</strong>. Ты перестанешь вестись на рекламу. Ты наконец поймёшь, что всё, что тебе нужно — уже есть у тебя внутри.</p>
-            <p style="font-size: 1.5rem; margin-top: 30px;">Так что 5 000 — это не цена курса. Это цена твоей свободы от маркетинга.</p>
-        </div>
-
-        <!-- ГЭНДАЛЬФ -->
-        <div class="gandalf-section">
-            <img class="gandalf-image" src="https://s10.iimage.su/s/24/gWtdTY1xJj1KKrG9JKbXNMYG66ThVgdWCoK6v5O1n.jpg" alt="Гэндальф" draggable="false">
-            <div class="gandalf-overlay">
+        <!-- ГЭНДАЛЬФ ВЕРНУЛСЯ -->
+        <div class="gandalf-block">
+            <div class="gandalf-image">
+                <img src="https://s10.iimage.su/s/24/gWtdTY1xJj1KKrG9JKbXNMYG66ThVgdWCoK6v5O1n.jpg" alt="Гэндальф против рекламы" draggable="false">
+            </div>
+            <div class="gandalf-text">
                 <h3>ТЫ <span>ПРОТИВ</span> РЕКЛАМЫ</h3>
-                <p>Инфоцыганы атакуют тебя каждый день. Ты сражаешься в одиночку.</p>
+                <p>Каждый день инфоцыганы атакуют тебя. Ты сражаешься в одиночку. И пока — проигрываешь.</p>
                 <p><strong>Этот курс — твой меч.</strong> После него ты будешь видеть развод за километр.</p>
             </div>
         </div>
 
-        <!-- ЦЕННОСТЬ + ЦЕНА -->
+        <!-- ЦЕННОСТЬ -->
         <section class="value">
             <div class="value-left">
                 <h3>ЭТО НЕ КУРС.<br>ЭТО ПРИВИВКА.</h3>
@@ -646,31 +642,31 @@
             </div>
         </section>
 
-        <!-- ОПЛАТА — ИСПРАВЛЕНО -->
+        <!-- ИСПРАВЛЕННАЯ ФОРМА ОПЛАТЫ -->
         <section class="payment-section">
             <h2>ЗАБРАТЬ ПРИВИВКУ</h2>
             <form target="_blank" class="yoomoney-payment-form" action="https://yookassa.ru/integration/simplepay/payment" method="post">
                 <div class="ym-customer-info">
-                    <div class="ym-block-title">Куда отправить доступ?</div>
-                    <input name="cps_email" class="ym-input" placeholder="Твой email" type="text" required>
+                    <div class="ym-block-title">Твой email</div>
+                    <input name="cps_email" class="ym-input" placeholder="куда отправить доступ" type="text" required>
                 </div>
                 <div class="ym-hidden-inputs">
                     <input name="shopSuccessURL" type="hidden" value="https://schoolshit.ru/success.html">
                 </div>
                 <div class="ym-payment-btn-block">
-                    <div class="ym-input-icon-rub ym-display-none">
+                    <div style="display: none;">
                         <input name="sum" type="number" value="5000">
                     </div>
                     <button class="ym-btn-pay">
                         ЗАБРАТЬ КУРС · 5 000 ₽
                     </button>
-                    <img src="https://yookassa.ru/integration/simplepay/img/iokassa-gray.svg" class="ym-logo" width="114" height="27" alt="ЮKassa">
+                    <img src="https://yookassa.ru/integration/simplepay/img/iokassa-gray.svg" class="ym-logo" style="opacity: 0.5;">
                 </div>
                 <input name="shopId" type="hidden" value="1256818">
             </form>
         </section>
 
-        <!-- ФИНАЛЬНАЯ СЦЕНА (СЧАСТЛИВАЯ ПАРА) -->
+        <!-- ФИНАЛЬНАЯ СЦЕНА -->
         <div class="final-scene">
             <img class="final-image" src="https://s10.iimage.su/s/24/g3Dsuenx4nYqv7nzUDSN1RKLfy0fs8iNdGg1Qyl5M.jpg" alt="Свобода" draggable="false">
             <div class="final-overlay">
@@ -682,7 +678,7 @@
         <!-- P.S. -->
         <div class="ps">
             <i class="fas fa-quote-left" style="color: #ff4b2b; font-size: 2rem; margin-right: 15px;"></i>
-            Если ты купишь этот курс, а потом купишь ещё один — мы вернём деньги. Потому что значит, мы не справились.<br>
+            Купишь этот курс, а потом ещё один — вернём деньги. Потому что мы не справились.<br>
             <strong>Но ты больше не захочешь покупать.</strong>
         </div>
 
