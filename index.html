@@ -11,43 +11,44 @@
             height: 100%;
             overflow: hidden;
             font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+            background-color: black;
         }
         
-        img {
+        /* Картинка на весь экран */
+        .full-image {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            background-image: url('https://s10.iimage.su/s/09/gbIXZYUxzrCoJ7TVQuus0lIHgRmlU0HZIdIpvN8SL.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
             z-index: 1;
-            pointer-events: none;
-            -webkit-user-drag: none;
-            -khtml-user-drag: none;
-            -moz-user-drag: none;
-            -o-user-drag: none;
-            user-drag: none;
-            -webkit-touch-callout: none;
         }
         
+        /* Текст поверх */
         .message {
             position: fixed;
             bottom: 30px;
             right: 30px;
             color: white;
-            font-size: clamp(1.5rem, 8vw, 4rem);
-            font-weight: bold;
-            text-shadow: 3px 3px 8px black;
+            font-size: clamp(2rem, 10vw, 5rem);
+            font-weight: 800;
+            text-shadow: 4px 4px 12px black;
             z-index: 2;
-            background-color: rgba(0,0,0,0.3);
-            padding: 10px 25px;
+            background-color: rgba(0,0,0,0.2);
+            padding: 12px 30px;
             border-radius: 60px;
-            backdrop-filter: blur(3px);
-            border: 1px solid rgba(255,255,255,0.3);
-            letter-spacing: 2px;
-            text-transform: uppercase;
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255,255,255,0.2);
+            letter-spacing: 3px;
+            text-transform: lowercase;
+            line-height: 1;
         }
         
+        /* Защита от сохранения */
         body {
             -webkit-touch-callout: none;
             -webkit-user-select: none;
@@ -59,11 +60,13 @@
     </style>
 </head>
 <body>
-    <img src="i (58).jpg" alt="" draggable="false">
+    <div class="full-image"></div>
     <div class="message">идите в жопу</div>
 
     <script>
+        // Запрет контекстного меню (сохранить как)
         document.addEventListener('contextmenu', event => event.preventDefault());
+        // Запрет перетаскивания
         document.addEventListener('dragstart', event => event.preventDefault());
     </script>
 </body>
